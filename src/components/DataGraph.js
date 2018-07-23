@@ -6,12 +6,13 @@ const dataGraph = (props) => {
         const rawData = props.data
         const data = rawData.map((el, index) => {
             return {
-                _id:el.id,
+                _id:el.classification,
                 index:index,
                 // value:el.score,
+                classification:el.classification,
                 value:1,
-                title:el.name,
-                displayText:el.name,
+                number:el.patents.length,
+                displayText:el.classification,
                 colorValue:Math.random() * 2 - 1
             }
         })
@@ -24,17 +25,17 @@ const dataGraph = (props) => {
 
     const tooltipProps = [{
         css: 'symbol',
-        prop: 'title',
-        display:'Title'
+        prop: 'classification',
+        display:'Classification'
     }, {
         css: 'value',
-        prop: '_id',
-        display: 'Patent ID'
+        prop: 'number',
+        display: 'Number of Patents'
     }];
 
 
     const handleClick = (event) => {
-        props.chooseDetail(event.index)
+        props.chooseClass(event.index)
     }
             
 

@@ -7,24 +7,40 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import green from '@material-ui/core/colors/green';
-import Avatar from '@material-ui/core/Avatar';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 
 const dataList = (props) => {
     const { classes } = props;
-    const list = props.data.map((el, index) => {
-        return (<ExpansionPanel key={el.id}>
+    const dataList = props.data.map((el, classIndex) => {
+        const patents = el.patents
+        const list = patents.map((patent, detailIndex) => {
+            return <ListItem key={detailIndex + "," + classIndex}
+                            dense
+                            button
+                            onClick={() => props.chooseDetail(classIndex, detailIndex)}
+                            // className={classes.listItem}
+                            >
+                            <ListItemText primary={patent.name}/>
+                            </ListItem>
+        })
+
+        return (<ExpansionPanel key={classIndex}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Title: {el.name}</Typography>
+              <Typography className={classes.heading}>Classification: {el.classification}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
+              <div>
               <Typography>
-                Abstract: { el.patentAbstract }
-                <Avatar style={{cursor:'pointer'}} onClick={() => props.chooseDetail(index)} className={classes.greenAvatar}>
-                  <AssignmentIcon />
-                </Avatar>
+                Number of Patents: { list.length }
               </Typography>
+
+              <List className={classes.list}>
+                {list}
+              </List>
+              </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>)
     })
@@ -32,7 +48,7 @@ const dataList = (props) => {
 
     return (
         <div className={classes.root}>
-        {list}
+        {dataList}
         </div>
     )
 }
@@ -41,6 +57,11 @@ const dataList = (props) => {
 const styles = theme => ({
     root: {
       width: '100%',
+    },
+    list: {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),

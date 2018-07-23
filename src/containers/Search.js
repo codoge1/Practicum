@@ -17,6 +17,7 @@ import DataList from '../components/DataList'
 import DataDetail from '../components/DataDetail'
 import axios from 'axios'
 import { FadeLoader } from 'react-spinners';
+import PatentList from '../components/PatentList'
 
 class Search extends Component {
     state = {
@@ -26,6 +27,8 @@ class Search extends Component {
         showGraph:false,
         showList:false,
         showDetail:false,
+        showClass:false,
+        classIndex:-1,
         detailIndex:-1,
         data:[],
         showSpinner:false,
@@ -51,51 +54,115 @@ class Search extends Component {
         this.setState({showModal:false,
                         showGraph:true,
                         showList:false,
+                        showClass:false,
                         showDetail:false})
     }
 
     handleShowList = () => {
         this.setState({showList:true, 
-                        showGraph:false})
+                        showGraph:false,
+                        showDetail:false,
+                        showClass:false})
     }
 
     handleShowGraph = () => {
         this.setState({showList:false, 
-                        showGraph:true})
+                        showGraph:true,
+                        showDetail:false,
+                        showClass:false})
     }
 
-    handleShowDetail = (index) => {
+    handleShowDetail = (classIndex, detailIndex) => {
         this.setState({showDetail:true, 
                         showList:false,
                         showGraph:false,
-                        detailIndex:index})
+                        showClass:false,
+                        classIndex:classIndex,
+                        detailIndex:detailIndex})
     }
 
     handleCloseDetail = () => {
         this.setState({showDetail:false, 
+                        showClass:false,
                         showList:false, 
                         showGraph:true,
+                        classIndex:-1,
                         detailIndex:-1})
+    }
+
+    handleChooseClass = (index) => {
+        this.setState({
+            showDetail:false, 
+            showClass:true,
+            showList:false,
+            showGraph:false,
+            classIndex:index
+        })
+    }
+
+    handleCloseClass = () => {
+        this.setState({showDetail:false, 
+                        showClass:false,
+                        showList:false, 
+                        showGraph:true,
+                        classIndex:-1})
+    }
+
+    handleReturn = () => {
+        this.setState({showDetail:false, 
+                        showClass:true,
+                        showList:false, 
+                        showGraph:false})
     }
 
     search = () => {
         const queryParameter = this.state.invention
         const url = 'http://18.222.136.148:8080/search?q=' + queryParameter
-        this.setState({showSpinner:true,
-                        showModal:true})
+        this.setState({showSpinner:false,
+                        showModal:true,
+                        showGraph:true})
 
-        axios.get(url)
-        .then((res) => {
-            console.log(res)
-            const newData = res['data']
-            this.setState({data:newData})
-            this.handleSearch()
-            this.setState({showGraph:true,
-                            showSpinner:false})
-        })
-        .catch((e) => {
-            console.log(e)
-        })
+        const newData = [{
+            classification:'classAB',
+            patents:[{
+                id:'fdasaf',
+                name:'patentA',
+                patentAbstract:'abstractA'
+            },
+            {
+                id:'asdasaf',
+                name:'patentB',
+                patentAbstract:'abstractB'
+            }
+        ]},
+        {
+            classification:'classCD',
+            patents:[{
+                id:'fdasafdfFS',
+                name:'patentC',
+                patentAbstract:'abstractC'
+            },
+            {
+                id:'asdHDFGSasaf',
+                name:'patentD',
+                patentAbstract:'abstractD'
+            }
+        ]},  
+        ]
+        this.setState({data:newData})
+
+        // axios.get(url)
+        // .then((res) => {
+        //     console.log(res)
+        //     const newData = res['data']
+        //     this.setState({data:newData})
+        //     this.handleSearch()
+        //     this.setState({showGraph:true,
+        //                     showSpinner:false})
+        // })
+        // .catch((e) => {
+        //     console.log(e)
+        // })
     }
 
     render(){
@@ -127,7 +194,13 @@ class Search extends Component {
 
         const dataGraph = this.state.showGraph ? <DataGraph 
                                                         data={this.state.data}
+                                                        chooseClass = {this.handleChooseClass}
                                                        chooseDetail={this.handleShowDetail}/> : null                                              
+
+        const patentList = this.state.showClass ? <PatentList data={this.state.data[this.state.classIndex]}
+                                                                classification={this.state.data[this.state.classIndex].classification}
+                                                                classIndex={this.state.classIndex}
+                                                                chooseDetail={this.handleShowDetail}/> : null
 
         const toListBotton = this.state.showList || this.state.showDetail ? null: <Button onClick={this.handleShowList} color="primary" autoFocus>
                                                             Show as List
@@ -136,10 +209,15 @@ class Search extends Component {
                                                             Show as Graph
                                                           </Button> 
 
-        const dataDetail = this.state.showDetail ? <DataDetail data={this.state.data[this.state.detailIndex]}/> : null
+        const dataDetail = this.state.showDetail ? <DataDetail data={this.state.data[this.state.classIndex].patents[this.state.detailIndex]}/> : null
 
         const toAllResults = this.state.showDetail ? <Button onClick={this.handleCloseDetail} color="primary" autoFocus>
                                                         Show all results
+                                                    </Button> : null
+
+
+        const returnToClass = this.state.showDetail ? <Button onClick={this.handleReturn} color="primary" autoFocus>
+                                                        Return
                                                     </Button> : null
 
         const spinner = this.state.showSpinner ? <div style={{marginLeft:'50%'}}><FadeLoader color={'#00ff00'}/></div> : null
@@ -160,6 +238,7 @@ class Search extends Component {
                     {spinner}
                     {dataList}
                     {dataGraph}
+                    {patentList}
                     {dataDetail}
                 </DialogContent>
                 <DialogActions>
@@ -168,6 +247,7 @@ class Search extends Component {
                     </Button>
                     {toListBotton}
                     {toGraphBotton}
+                    {returnToClass}
                     {toAllResults}
                 </DialogActions>
                 </Dialog>
