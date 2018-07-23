@@ -115,6 +115,12 @@ class Search extends Component {
                         showGraph:false})
     }
 
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.search()
+        }
+    }
+
     search = () => {
         const queryParameter = this.state.invention
         const url = 'http://18.222.136.148:8080/search?q=' + queryParameter
@@ -181,7 +187,7 @@ class Search extends Component {
                                                         <br />
                                                         <FormControl fullWidth className={classes.formControl}>
                                                         <InputLabel>&nbsp;&nbsp;Invention Disclosure</InputLabel>
-                                                        <Input disableUnderline className={classes.input} multiline rows='8'value={this.state.invention} onChange={this.changeInvention} />
+                                                        <Input disableUnderline onKeyPress={(event) => this.handleKeyPress(event)} className={classes.input} multiline rows='8'value={this.state.invention} onChange={this.changeInvention} />
                                                         <FormHelperText>Please input your invention disclosure</FormHelperText>
                                                         </FormControl>
                                                         
@@ -202,21 +208,21 @@ class Search extends Component {
                                                                 classIndex={this.state.classIndex}
                                                                 chooseDetail={this.handleShowDetail}/> : null
 
-        const toListBotton = this.state.showList || this.state.showDetail ? null: <Button onClick={this.handleShowList} color="primary" autoFocus>
+        const toListBotton = this.state.showList || this.state.showDetail ? null: <Button onClick={this.handleShowList} color="primary">
                                                             Show as List
                                                          </Button> 
-        const toGraphBotton = this.state.showGraph || this.state.showDetail ? null: <Button onClick={this.handleShowGraph} color="primary" autoFocus>
+        const toGraphBotton = this.state.showGraph || this.state.showDetail ? null: <Button onClick={this.handleShowGraph} color="primary">
                                                             Show as Graph
                                                           </Button> 
 
         const dataDetail = this.state.showDetail ? <DataDetail data={this.state.data[this.state.classIndex].patents[this.state.detailIndex]}/> : null
 
-        const toAllResults = this.state.showDetail ? <Button onClick={this.handleCloseDetail} color="primary" autoFocus>
+        const toAllResults = this.state.showDetail ? <Button onClick={this.handleCloseDetail} color="primary">
                                                         Show all results
                                                     </Button> : null
 
 
-        const returnToClass = this.state.showDetail ? <Button onClick={this.handleReturn} color="primary" autoFocus>
+        const returnToClass = this.state.showDetail ? <Button onClick={this.handleReturn} color="primary">
                                                         Return
                                                     </Button> : null
 
