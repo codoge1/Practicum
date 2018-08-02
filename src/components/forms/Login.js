@@ -39,8 +39,8 @@ class Login extends Component {
                 <Input type='password' value={this.state.password} onChange={this.changePassword} />
                 </FormControl>
 
-                <Button variant="contained" color="primary" className={classes.bottom}>Sign In</Button>
-                <Button variant="contained" color="secondary" onClick={() => this.props.switch()}>Switch to Sign Up</Button>
+                <Button variant="contained" color="primary" className={classes.button}>Sign In</Button>
+                <Button variant="contained" color="secondary" className={classes.button} onClick={() => this.props.switch()}>Switch to Sign Up</Button>
             </Aux>
         )
     }
@@ -56,7 +56,7 @@ const styles = theme => ({
     formControl: {
       margin: theme.spacing.unit,
     },
-    bottom:{
+    button:{
         marginRight:20
     }
   });
