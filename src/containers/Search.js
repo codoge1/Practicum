@@ -5,7 +5,7 @@ import SimpleSearch from './SimpleSearch'
 
 class Search extends Component {
     state = {
-        showAdvance:true,
+        showAdvance:false,
     }
 
     switchToSimple = () => {
