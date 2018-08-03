@@ -201,7 +201,7 @@ class Search extends Component {
                                                                     // value="checkedA"
                                                                     />
                                                                 }
-                                                                label="Abstract"
+                                                                label="Description"
                                                                 />
                                                                 <FormControlLabel
                                                                 control={
