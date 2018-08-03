@@ -18,7 +18,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import AllPatents from '../components/AllPatents';
+import AllPatentsList from '../components/AllPatentsList';
+import AllPatentGraph from '../components/AllPatentsGraph'
 
 
 class Search extends Component {
@@ -65,6 +66,7 @@ class Search extends Component {
     handleShowDetail = (detailIndex) => {
         this.setState({showDetail:true, 
                         showList:false,
+                        showGraph:false,
                         detailIndex:detailIndex})
     }
 
@@ -106,32 +108,38 @@ class Search extends Component {
             {
                 id:'fdasaf',
                 name:'patentA',
-                patentAbstract:'abstractA'
+                patentAbstract:'abstractA',
+                score:4
             },
             {
                 id:'fdsdasdsgsaf',
                 name:'patentB',
-                patentAbstract:'abstractB'
+                patentAbstract:'abstractB',
+                score:46
             },
             {
                 id:'aafaasaf',
                 name:'patentC',
-                patentAbstract:'abstractC'
+                patentAbstract:'abstractC',
+                score:23
             },
             {
                 id:'fdagsdafsaf',
                 name:'patentD',
-                patentAbstract:'abstractD'
+                patentAbstract:'abstractD',
+                score:56
             },
             {
                 id:'fdahfssaf',
                 name:'patentE',
-                patentAbstract:'abstractE'
+                patentAbstract:'abstractE',
+                score:21
             },
             {
                 id:'fdasawqef',
                 name:'patentF',
-                patentAbstract:'abstractF'
+                patentAbstract:'abstractF',
+                score:8
             },
         ]
         this.setState({data:newData})
@@ -218,10 +226,14 @@ class Search extends Component {
                                                     </Aux>
                                              
 
-        const patentList = this.state.showList ? <AllPatents data={this.state.data}
+        const patentList = this.state.showList ? <AllPatentsList data={this.state.data}
                                                                 input={this.state.input}
                                                                 // classIndex={this.state.classIndex}
                                                                 chooseDetail={this.handleShowDetail}/> : null
+
+        const patentGraph = this.state.showGraph ? <AllPatentGraph data={this.state.data}
+                                                                    input={this.state.input}
+                                                                    chooseDetail={this.handleShowDetail} /> : null
 
         const toListBotton = this.state.showGraph || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowList} color="primary">
                                                             Show All as List
@@ -256,6 +268,7 @@ class Search extends Component {
                 <DialogContent> */}
                 {spinner}
                 {patentList}
+                {patentGraph}
                 {dataDetail}
                 {/* </DialogContent>
                 <DialogActions> */}
