@@ -11,9 +11,21 @@ import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 
+
 const patentList = (props) => {
     const { classes } = props;
-    const list = props.data.patents.map((el, index) => {
+    const compare = (a, b) => {
+      if (a.score < b.score) {
+        return 1;
+      } else if (a.score > b.score) {
+        return -1;
+      }
+      return 0;
+    }
+    let patents = props.data.patents;
+    patents.sort(compare);
+    console.log(patents)
+    const list = patents.map((el, index) => {
         return (<ExpansionPanel key={el.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Title: {el.name}</Typography>

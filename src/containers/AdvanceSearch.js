@@ -53,9 +53,9 @@ class Search extends Component {
         this.setState({invention:event.target.value})
     }
 
-    handleSearch = () => {
-        this.handleShowModal()
-    }
+    // handleSearch = () => {
+    //     this.handleShowModal()
+    // }
 
     // handleShowModal = () => {
     //     this.setState({showModal:true})
@@ -84,7 +84,20 @@ class Search extends Component {
     }
 
     handleShowDetail = (classIndex, detailIndex) => {
-        this.setState({showDetail:true, 
+        // this.setState({ showSpinner:true,
+        //                 showDetail:false, 
+        //                 showList:false,
+        //                 showGraph:false,
+        //                 showClass:false,})
+
+        // const patentID = this.state.data[classIndex].patents[detailIndex].id
+        // const url = "http://52.14.228.72:8080/patent?id=" + patentID
+        // axios.get(url)
+        //      .then((res) => {
+        //          console.log(res)
+        //      })
+        this.setState({ showSpinner:false,
+                        showDetail:true, 
                         showList:false,
                         showGraph:false,
                         showClass:false,
@@ -131,6 +144,7 @@ class Search extends Component {
                         showClass:false,
                         showList:false, 
                         showGraph:false,
+                        showSpinner:false,
                         showResult:false})
     }
 
@@ -170,52 +184,52 @@ class Search extends Component {
 
     search = () => {
         const queryParameter = this.state.invention
-        const url = 'http://18.222.136.148:8080/search?q=' + queryParameter
-        this.setState({showSpinner:false,
+        const url = 'http://52.14.228.72:8080/search?q=' + queryParameter
+        this.setState({showSpinner:true,
                         showResult:true,
                         showGraph:true})
 
-        const newData = [{
-            classification:'classAB',
-            patents:[{
-                id:'fdasaf',
-                name:'patentA',
-                patentAbstract:'abstractA'
-            },
-            {
-                id:'asdasaf',
-                name:'patentB',
-                patentAbstract:'abstractB'
-            }
-        ]},
-        {
-            classification:'classCD',
-            patents:[{
-                id:'fdasafdfFS',
-                name:'patentC',
-                patentAbstract:'abstractC'
-            },
-            {
-                id:'asdHDFGSasaf',
-                name:'patentD',
-                patentAbstract:'abstractD'
-            }
-        ]},  
-        ]
-        this.setState({data:newData})
+        // const newData = [{
+        //     classification:'classAB',
+        //     patents:[{
+        //         id:'fdasaf',
+        //         name:'patentA',
+        //         patentAbstract:'abstractA'
+        //     },
+        //     {
+        //         id:'asdasaf',
+        //         name:'patentB',
+        //         patentAbstract:'abstractB'
+        //     }
+        // ]},
+        // {
+        //     classification:'classCD',
+        //     patents:[{
+        //         id:'fdasafdfFS',
+        //         name:'patentC',
+        //         patentAbstract:'abstractC'
+        //     },
+        //     {
+        //         id:'asdHDFGSasaf',
+        //         name:'patentD',
+        //         patentAbstract:'abstractD'
+        //     }
+        // ]},  
+        // ]
+        // this.setState({data:newData})
 
-        // axios.get(url)
-        // .then((res) => {
-        //     console.log(res)
-        //     const newData = res['data']
-        //     this.setState({data:newData})
-        //     this.handleSearch()
-        //     this.setState({showGraph:true,
-        //                     showSpinner:false})
-        // })
-        // .catch((e) => {
-        //     console.log(e)
-        // })
+        axios.get(url)
+        .then((res) => {
+            // console.log(res)
+            const newData = res['data']
+            this.setState({data:newData})
+            // this.handleSearch()
+            this.setState({showGraph:true,
+                            showSpinner:false})
+        })
+        .catch((e) => {
+            console.log(e)
+        })
     }
 
     render(){
@@ -311,14 +325,18 @@ class Search extends Component {
                                                             Show as Graph
                                                           </Button> : null
 
-        const dataDetail = this.state.showDetail ? <DataDetail data={this.state.data[this.state.classIndex].patents[this.state.detailIndex]}/> : null
+        const dataDetail = this.state.showDetail ? <DataDetail keyword={this.state.invention} data={this.state.data[this.state.classIndex].patents[this.state.detailIndex]}/> : null
 
         // const toAllResults = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleCloseDetail} color="primary">
         //                                                 Show all results
         //                                             </Button> : null
 
 
-        const returnToClass = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToClass} color="primary">
+        const returnToPatents = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToClass} color="primary">
+                                                        Return
+                                                    </Button> : null
+
+        const returnToClass = this.state.showClass ? <Button className={classes.button} variant="contained" onClick={this.handleShowGraph} color="primary">
                                                         Return
                                                     </Button> : null
 
@@ -360,6 +378,7 @@ class Search extends Component {
             {toGraphBotton}
             {/* {toAllResults} */}
             {returnToClass}
+            {returnToPatents}
             {returnToSearch}
             </div>
             </Aux>

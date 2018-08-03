@@ -10,9 +10,9 @@ const dataGraph = (props) => {
             return {
                 _id:el.id,
                 index:index,
-                value:el.score,
+                value:1,
                 title:el.name,
-                displayText:el.title,
+                displayText:el.name,
                 colorValue:Math.random() * 2 - 1
             }
         })

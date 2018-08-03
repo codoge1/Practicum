@@ -26,7 +26,7 @@ class Search extends Component {
     state = {
         input:"",
         title:true,
-        abstract:false,
+        description:false,
         claim:false,
 
         showResult:false,
@@ -36,7 +36,7 @@ class Search extends Component {
         detailIndex:-1,
         data:[],
         showSpinner:false,
-        searchBy:1,     //1-> all 2-> title 3->id 4-> abstract 5-> content
+        // searchBy:1,     //1-> all 2-> title 3->id 4-> abstract 5-> content
     }
 
     changeInput = (event) => {
@@ -82,6 +82,7 @@ class Search extends Component {
         this.setState({showDetail:false, 
                         showList:false, 
                         showGraph:false,
+                        showSpinner:false,
                         showResult:false})
     }
 
@@ -98,64 +99,77 @@ class Search extends Component {
     }
 
     search = () => {
-        const queryParameter = this.state.invention
-        const url = 'http://18.222.136.148:8080/search?q=' + queryParameter
-        this.setState({showSpinner:false,
+        let queryParameter = this.state.input
+        if (this.state.title) {
+            queryParameter += "&title=true"
+        }
+        if (this.state.description) {
+            queryParameter += "&description=true"
+        }
+        if (this.state.claim) {
+            queryParameter += "&claim=true"
+        }
+        const url = 'http://52.14.228.72:8080/search?q=' + queryParameter
+        this.setState({showSpinner:true,
                         showResult:true,
-                        showList:true})
+                        showList:false})
 
-        const newData = [
-            {
-                id:'fdasaf',
-                name:'patentA',
-                patentAbstract:'abstractA',
-                score:4
-            },
-            {
-                id:'fdsdasdsgsaf',
-                name:'patentB',
-                patentAbstract:'abstractB',
-                score:46
-            },
-            {
-                id:'aafaasaf',
-                name:'patentC',
-                patentAbstract:'abstractC',
-                score:23
-            },
-            {
-                id:'fdagsdafsaf',
-                name:'patentD',
-                patentAbstract:'abstractD',
-                score:56
-            },
-            {
-                id:'fdahfssaf',
-                name:'patentE',
-                patentAbstract:'abstractE',
-                score:21
-            },
-            {
-                id:'fdasawqef',
-                name:'patentF',
-                patentAbstract:'abstractF',
-                score:8
-            },
-        ]
-        this.setState({data:newData})
+        // const newData = [
+        //     {
+        //         id:'fdasaf',
+        //         name:'patentA',
+        //         patentAbstract:'abstractA',
+        //         score:4
+        //     },
+        //     {
+        //         id:'fdsdasdsgsaf',
+        //         name:'patentB',
+        //         patentAbstract:'abstractB',
+        //         score:46
+        //     },
+        //     {
+        //         id:'aafaasaf',
+        //         name:'patentC',
+        //         patentAbstract:'abstractC',
+        //         score:23
+        //     },
+        //     {
+        //         id:'fdagsdafsaf',
+        //         name:'patentD',
+        //         patentAbstract:'abstractD',
+        //         score:56
+        //     },
+        //     {
+        //         id:'fdahfssaf',
+        //         name:'patentE',
+        //         patentAbstract:'abstractE',
+        //         score:21
+        //     },
+        //     {
+        //         id:'fdasawqef',
+        //         name:'patentF',
+        //         patentAbstract:'abstractF',
+        //         score:8
+        //     },
+        // ]
+        // this.setState({data:newData})
 
-        // axios.get(url)
-        // .then((res) => {
-        //     console.log(res)
-        //     const newData = res['data']
-        //     this.setState({data:newData})
-        //     this.handleSearch()
-        //     this.setState({showGraph:true,
-        //                     showSpinner:false})
-        // })
-        // .catch((e) => {
-        //     console.log(e)
-        // })
+        axios.get(url)
+        .then((res) => {
+            console.log(res)
+            let patents = []
+            const rawData = res['data']
+            rawData.forEach((obj) => {
+                patents = patents.concat(obj.patents)
+            })
+            this.setState({data:patents})
+            this.setState({showGraph:true,
+                            showResult:true,
+                            showSpinner:false})
+        })
+        .catch((e) => {
+            console.log(e)
+        })
     }
 
     render(){
@@ -242,7 +256,7 @@ class Search extends Component {
                                                             Show All as Graph
                                                           </Button> : null
 
-        const dataDetail = this.state.showDetail ? <DataDetail  data={this.state.data[this.state.detailIndex]}/> : null
+        const dataDetail = this.state.showDetail ? <DataDetail  keyword={this.state.input} data={this.state.data[this.state.detailIndex]}/> : null
 
 
 

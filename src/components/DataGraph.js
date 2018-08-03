@@ -10,7 +10,7 @@ const dataGraph = (props) => {
                 index:index,
                 // value:el.score,
                 classification:el.classification,
-                value:1,
+                value:el.patents.length,
                 number:el.patents.length,
                 displayText:el.classification,
                 colorValue:Math.random() * 2 - 1
