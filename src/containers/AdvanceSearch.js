@@ -257,9 +257,9 @@ class Search extends Component {
 
         const dataDetail = this.state.showDetail ? <DataDetail data={this.state.data[this.state.classIndex].patents[this.state.detailIndex]}/> : null
 
-        const toAllResults = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleCloseDetail} color="primary">
-                                                        Show all results
-                                                    </Button> : null
+        // const toAllResults = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleCloseDetail} color="primary">
+        //                                                 Show all results
+        //                                             </Button> : null
 
 
         const returnToClass = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToClass} color="primary">
@@ -302,7 +302,7 @@ class Search extends Component {
             <div>
             {toListBotton}
             {toGraphBotton}
-            {toAllResults}
+            {/* {toAllResults} */}
             {returnToClass}
             {returnToSearch}
             </div>

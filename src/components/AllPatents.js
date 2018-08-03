@@ -11,9 +11,9 @@ import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 
-const patentList = (props) => {
+const AllPatents = (props) => {
     const { classes } = props;
-    const list = props.data.patents.map((el, index) => {
+    const list = props.data.map((el, index) => {
         return (<ExpansionPanel key={el.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Title: {el.name}</Typography>
@@ -23,7 +23,7 @@ const patentList = (props) => {
               <Typography>
                 Abstract: { el.patentAbstract }
                 </Typography>
-                <Avatar style={{cursor:'pointer'}} onClick={() => props.chooseDetail(props.classIndex, index)} className={classes.greenAvatar}>
+                <Avatar style={{cursor:'pointer'}} onClick={() => props.chooseDetail(index)} className={classes.greenAvatar}>
                   <AssignmentIcon />
                 </Avatar>
                 </div>
@@ -36,7 +36,7 @@ const patentList = (props) => {
     return (
         <div className={classes.root}>
         <Typography variant="headline" gutterBottom>
-          Classification:{ props.classification }
+            Search Content:{props.input}
         </Typography>
         
         <br/>
@@ -65,8 +65,8 @@ const styles = theme => ({
     },
   });
 
-patentList.propTypes = {
+AllPatents.propTypes = {
 classes: PropTypes.object.isRequired,
 };
   
-  export default withStyles(styles)(patentList);
+  export default withStyles(styles)(AllPatents);

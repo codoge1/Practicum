@@ -13,12 +13,12 @@ import DataList from '../components/DataList'
 import DataDetail from '../components/DataDetail'
 import axios from 'axios'
 import { FadeLoader } from 'react-spinners';
-import PatentList from '../components/PatentList'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import AllPatents from '../components/AllPatents';
 
 
 class Search extends Component {
@@ -32,8 +32,6 @@ class Search extends Component {
         showGraph:false,
         showList:false,
         showDetail:false,
-        showClass:false,
-        classIndex:-1,
         detailIndex:-1,
         data:[],
         showSpinner:false,
@@ -48,9 +46,6 @@ class Search extends Component {
         this.setState({[name]:event.target.checked})
     }
 
-    handleSearch = () => {
-        this.handleShowModal()
-    }
 
 
     handleShowList = () => {
@@ -67,52 +62,22 @@ class Search extends Component {
                         showClass:false})
     }
 
-    handleShowDetail = (classIndex, detailIndex) => {
+    handleShowDetail = (detailIndex) => {
         this.setState({showDetail:true, 
                         showList:false,
-                        showGraph:false,
-                        showClass:false,
-                        classIndex:classIndex,
                         detailIndex:detailIndex})
     }
 
     handleCloseDetail = () => {
         this.setState({showDetail:false, 
-                        showClass:false,
-                        showList:false, 
-                        showGraph:true,
-                        classIndex:-1,
+                        showList:true, 
+                        showGraph:false,
                         detailIndex:-1})
     }
 
-    handleChooseClass = (index) => {
-        this.setState({
-            showDetail:false, 
-            showClass:true,
-            showList:false,
-            showGraph:false,
-            classIndex:index
-        })
-    }
-
-    handleCloseClass = () => {
-        this.setState({showDetail:false, 
-                        showClass:false,
-                        showList:false, 
-                        showGraph:true,
-                        classIndex:-1})
-    }
-
-    handleReturnToClass = () => {
-        this.setState({showDetail:false, 
-                        showClass:true,
-                        showList:false, 
-                        showGraph:false})
-    }
 
     handleReturnToSearch = () => {
         this.setState({showDetail:false, 
-                        showClass:false,
                         showList:false, 
                         showGraph:false,
                         showResult:false})
@@ -135,34 +100,39 @@ class Search extends Component {
         const url = 'http://18.222.136.148:8080/search?q=' + queryParameter
         this.setState({showSpinner:false,
                         showResult:true,
-                        showGraph:true})
+                        showList:true})
 
-        const newData = [{
-            classification:'classAB',
-            patents:[{
+        const newData = [
+            {
                 id:'fdasaf',
                 name:'patentA',
                 patentAbstract:'abstractA'
             },
             {
-                id:'asdasaf',
+                id:'fdsdasdsgsaf',
                 name:'patentB',
                 patentAbstract:'abstractB'
-            }
-        ]},
-        {
-            classification:'classCD',
-            patents:[{
-                id:'fdasafdfFS',
+            },
+            {
+                id:'aafaasaf',
                 name:'patentC',
                 patentAbstract:'abstractC'
             },
             {
-                id:'asdHDFGSasaf',
+                id:'fdagsdafsaf',
                 name:'patentD',
                 patentAbstract:'abstractD'
-            }
-        ]},  
+            },
+            {
+                id:'fdahfssaf',
+                name:'patentE',
+                patentAbstract:'abstractE'
+            },
+            {
+                id:'fdasawqef',
+                name:'patentF',
+                patentAbstract:'abstractF'
+            },
         ]
         this.setState({data:newData})
 
@@ -246,38 +216,23 @@ class Search extends Component {
                                                             </FormControl>
 
                                                     </Aux>
+                                             
 
-        const dataList = this.state.showList ? <DataList 
-                                                        data={this.state.data}
-                                                      chooseDetail={this.handleShowDetail}/> : null
-
-        const dataGraph = this.state.showGraph ? <DataGraph 
-                                                        data={this.state.data}
-                                                        chooseClass = {this.handleChooseClass}
-                                                       chooseDetail={this.handleShowDetail}/> : null                                              
-
-        const patentList = this.state.showClass ? <PatentList data={this.state.data[this.state.classIndex]}
-                                                                classification={this.state.data[this.state.classIndex].classification}
-                                                                classIndex={this.state.classIndex}
+        const patentList = this.state.showList ? <AllPatents data={this.state.data}
+                                                                input={this.state.input}
+                                                                // classIndex={this.state.classIndex}
                                                                 chooseDetail={this.handleShowDetail}/> : null
 
         const toListBotton = this.state.showGraph || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowList} color="primary">
-                                                            Show as List
+                                                            Show All as List
                                                          </Button> : null
         const toGraphBotton = this.state.showList || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowGraph} color="primary">
-                                                            Show as Graph
+                                                            Show All as Graph
                                                           </Button> : null
 
-        const dataDetail = this.state.showDetail ? <DataDetail data={this.state.data[this.state.classIndex].patents[this.state.detailIndex]}/> : null
-
-        const toAllResults = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleCloseDetail} color="primary">
-                                                        Show all results
-                                                    </Button> : null
+        const dataDetail = this.state.showDetail ? <DataDetail  data={this.state.data[this.state.detailIndex]}/> : null
 
 
-        const returnToClass = this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToClass} color="primary">
-                                                        Return
-                                                    </Button> : null
 
         const returnToSearch = this.state.showResult ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToSearch} color="primary">
                                                         Back to Search
@@ -300,8 +255,6 @@ class Search extends Component {
                 <DialogTitle id="responsive-dialog-title">{"Search Term: "} {this.state.invention} :</DialogTitle>
                 <DialogContent> */}
                 {spinner}
-                {dataList}
-                {dataGraph}
                 {patentList}
                 {dataDetail}
                 {/* </DialogContent>
@@ -315,8 +268,6 @@ class Search extends Component {
             <div>
             {toListBotton}
             {toGraphBotton}
-            {toAllResults}
-            {returnToClass}
             {returnToSearch}
             </div>
             </Aux>
