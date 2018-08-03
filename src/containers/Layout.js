@@ -78,6 +78,7 @@ class SimpleTabs extends React.Component {
         </Tabs>
         
           </AppBar>
+        {value === 0 && <TabContainer><Search /></TabContainer>}
         {value === 1 && <TabContainer><Search /></TabContainer>}
         {value === 2 && <TabContainer>Should be freedom to operate page</TabContainer>}
         {value === 3 && <TabContainer>Should be clearance page</TabContainer>}
