@@ -20,6 +20,12 @@ import { FadeLoader } from 'react-spinners';
 import PatentList from '../components/PatentList'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Slider, {Range} from 'rc-slider';
+import Tooltip from 'rc-tooltip';
+import 'rc-slider/assets/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
+import { FormGroup } from '../../node_modules/@material-ui/core';
+
 
 
 class Search extends Component {
@@ -35,7 +41,8 @@ class Search extends Component {
         detailIndex:-1,
         data:[],
         showSpinner:false,
-        searchBy:1,     //1-> all 2-> title 3->id 4-> abstract 5-> content
+        weight:50,
+        
     }
 
     changeNovel = (event) => {
@@ -139,6 +146,28 @@ class Search extends Component {
         this.setState({searchBy:event.target.value})
     }
 
+    handleSlider = (props) => {
+        const createSliderWithTooltip = Slider.createSliderWithTooltip;
+        const Handle = Slider.Handle;
+        const { value, dragging, index, ...restProps } = props;
+
+        return (
+          <Tooltip
+            prefixCls="rc-slider-tooltip"
+            overlay={value}
+            visible={dragging}
+            placement="top"
+            key={index}
+          >
+            <Handle value={value} {...restProps} />
+          </Tooltip>
+        );
+      };
+
+      changeWeight = (value) => {
+          this.setState({weight:value})
+      }
+
     search = () => {
         const queryParameter = this.state.invention
         const url = 'http://18.222.136.148:8080/search?q=' + queryParameter
@@ -209,9 +238,40 @@ class Search extends Component {
                                                         <FormHelperText>Please input your invention disclosure</FormHelperText>
                                                         </FormControl>
                                                         
-                                                        <FormControl className={classes.formControl}>
+                                                        <FormControl fullWidth className={classes.formControl}>
+                                                            <FormGroup row>
+                                                                
+                                                                <Typography  variant="caption">
+                                                                    Novel Feature
+                                                                </Typography>
+                                                                <Slider onChange={(value) => this.changeWeight(value)} 
+                                                                        marks={{0:'0%',
+                                                                                20:'20%',
+                                                                                40:'40%',
+                                                                                60:'60%',
+                                                                                80:'80%',
+                                                                                100:'100%'}}
+                                                                        min={0} max={100} 
+                                                                        defaultValue={50} 
+                                                                        value={this.state.weight} 
+                                                                        handle={this.handleSlider}/>
+                                                               
+                                                            </FormGroup>
+                                                        </FormControl>
 
-                                                        <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
+                                                        <FormControl fullWidth className={classes.formControl} >
+                                                            <Typography  variant="caption" align='right'>
+                                                                Invention Disclosure
+                                                            </Typography>
+                                                        </FormControl>
+
+                                                        <FormControl fullWidth className={classes.formControl}>
+                                                            <FormGroup row>
+                                                                <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
+                                                                <Button className={classes.button} variant="contained" color="secondary" onClick={this.props.switch}>Simple Search</Button>
+                                                            </FormGroup>
+                                                        </FormControl>
+
                                                         
                                                             {/* <Select
                                                                 value={this.state.searchBy}
@@ -227,10 +287,6 @@ class Search extends Component {
 
                                                             </Select>
                                                             <FormHelperText>Search By</FormHelperText> */}
-                                                            </FormControl>
-                                                            <FormControl className={classes.formControl}>
-                                                                <Button className={classes.button} variant="contained" color="secondary" onClick={this.props.switch}>Simple Search</Button>
-                                                            </FormControl>
 
                                                     </Aux>
 

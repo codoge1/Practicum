@@ -216,7 +216,7 @@ class Search extends Component {
                                                             </FormGroup>
                                                             </FormControl>
 
-                                                            <FormControl className={classes.formControl}>
+                                                            <FormControl fullWidth className={classes.formControl}>
                                                                 <FormGroup row>
                                                                     <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
                                                                     <Button className={classes.button} variant="contained" color="secondary" onClick={this.props.switch}>Advanced Search</Button>
