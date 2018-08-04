@@ -109,7 +109,7 @@ class Search extends Component {
         if (this.state.claim) {
             queryParameter += "&claim=true"
         }
-        const url = 'http://52.14.228.72:8080/search?q=' + queryParameter
+        const url = 'http://52.14.228.72/search?q=' + queryParameter
         this.setState({showSpinner:true,
                         showResult:true,
                         showList:false})

@@ -42,7 +42,7 @@ class Search extends Component {
         data:[],
         showSpinner:false,
         weight:50,
-        
+
     }
 
     changeNovel = (event) => {
@@ -70,14 +70,14 @@ class Search extends Component {
     // }
 
     handleShowList = () => {
-        this.setState({showList:true, 
+        this.setState({showList:true,
                         showGraph:false,
                         showDetail:false,
                         showClass:false})
     }
 
     handleShowGraph = () => {
-        this.setState({showList:false, 
+        this.setState({showList:false,
                         showGraph:true,
                         showDetail:false,
                         showClass:false})
@@ -85,19 +85,19 @@ class Search extends Component {
 
     handleShowDetail = (classIndex, detailIndex) => {
         // this.setState({ showSpinner:true,
-        //                 showDetail:false, 
+        //                 showDetail:false,
         //                 showList:false,
         //                 showGraph:false,
         //                 showClass:false,})
 
         // const patentID = this.state.data[classIndex].patents[detailIndex].id
-        // const url = "http://52.14.228.72:8080/patent?id=" + patentID
+        // const url = "http://52.14.228.72/patent?id=" + patentID
         // axios.get(url)
         //      .then((res) => {
         //          console.log(res)
         //      })
         this.setState({ showSpinner:false,
-                        showDetail:true, 
+                        showDetail:true,
                         showList:false,
                         showGraph:false,
                         showClass:false,
@@ -106,9 +106,9 @@ class Search extends Component {
     }
 
     handleCloseDetail = () => {
-        this.setState({showDetail:false, 
+        this.setState({showDetail:false,
                         showClass:false,
-                        showList:false, 
+                        showList:false,
                         showGraph:true,
                         classIndex:-1,
                         detailIndex:-1})
@@ -116,7 +116,7 @@ class Search extends Component {
 
     handleChooseClass = (index) => {
         this.setState({
-            showDetail:false, 
+            showDetail:false,
             showClass:true,
             showList:false,
             showGraph:false,
@@ -125,24 +125,24 @@ class Search extends Component {
     }
 
     handleCloseClass = () => {
-        this.setState({showDetail:false, 
+        this.setState({showDetail:false,
                         showClass:false,
-                        showList:false, 
+                        showList:false,
                         showGraph:true,
                         classIndex:-1})
     }
 
     handleReturnToClass = () => {
-        this.setState({showDetail:false, 
+        this.setState({showDetail:false,
                         showClass:true,
-                        showList:false, 
+                        showList:false,
                         showGraph:false})
     }
 
     handleReturnToSearch = () => {
-        this.setState({showDetail:false, 
+        this.setState({showDetail:false,
                         showClass:false,
-                        showList:false, 
+                        showList:false,
                         showGraph:false,
                         showSpinner:false,
                         showResult:false})
@@ -184,7 +184,7 @@ class Search extends Component {
 
     search = () => {
         const queryParameter = this.state.invention
-        const url = 'http://52.14.228.72:8080/search?q=' + queryParameter
+        const url = 'http://52.14.228.72/search?q=' + queryParameter
         this.setState({showSpinner:true,
                         showResult:true,
                         showGraph:true})
@@ -214,7 +214,7 @@ class Search extends Component {
         //         name:'patentD',
         //         patentAbstract:'abstractD'
         //     }
-        // ]},  
+        // ]},
         // ]
         // this.setState({data:newData})
 
@@ -251,25 +251,25 @@ class Search extends Component {
                                                         <Input disableUnderline onKeyPress={(event) => this.handleKeyPress(event)} className={classes.input} multiline rows='8'value={this.state.invention} onChange={this.changeInvention} />
                                                         <FormHelperText>Please input your invention disclosure</FormHelperText>
                                                         </FormControl>
-                                                        
+
                                                         <FormControl fullWidth className={classes.formControl}>
                                                             <FormGroup row>
-                                                                
+
                                                                 <Typography  variant="caption">
                                                                     Novel Feature
                                                                 </Typography>
-                                                                <Slider onChange={(value) => this.changeWeight(value)} 
+                                                                <Slider onChange={(value) => this.changeWeight(value)}
                                                                         marks={{0:'0%',
                                                                                 20:'20%',
                                                                                 40:'40%',
                                                                                 60:'60%',
                                                                                 80:'80%',
                                                                                 100:'100%'}}
-                                                                        min={0} max={100} 
-                                                                        defaultValue={50} 
-                                                                        value={this.state.weight} 
+                                                                        min={0} max={100}
+                                                                        defaultValue={50}
+                                                                        value={this.state.weight}
                                                                         handle={this.handleSlider}/>
-                                                               
+
                                                             </FormGroup>
                                                         </FormControl>
 
@@ -286,13 +286,13 @@ class Search extends Component {
                                                             </FormGroup>
                                                         </FormControl>
 
-                                                        
+
                                                             {/* <Select
                                                                 value={this.state.searchBy}
                                                                 onChange={this.handleSelect}
                                                                 input={<Input/>}
                                                             >
-                                                                
+
                                                                 <MenuItem value={1}>All</MenuItem>
                                                                 <MenuItem value={2}>Title</MenuItem>
                                                                 <MenuItem value={3}>ID</MenuItem>
@@ -304,14 +304,14 @@ class Search extends Component {
 
                                                     </Aux>
 
-        const dataList = this.state.showList ? <DataList 
+        const dataList = this.state.showList ? <DataList
                                                         data={this.state.data}
                                                       chooseDetail={this.handleShowDetail}/> : null
 
-        const dataGraph = this.state.showGraph ? <DataGraph 
+        const dataGraph = this.state.showGraph ? <DataGraph
                                                         data={this.state.data}
                                                         chooseClass = {this.handleChooseClass}
-                                                       chooseDetail={this.handleShowDetail}/> : null                                              
+                                                       chooseDetail={this.handleShowDetail}/> : null
 
         const patentList = this.state.showClass ? <PatentList data={this.state.data[this.state.classIndex]}
                                                                 classification={this.state.data[this.state.classIndex].classification}
@@ -408,5 +408,5 @@ class Search extends Component {
     Search.propTypes = {
         classes: PropTypes.object.isRequired,
     };
-  
+
 export default withStyles(styles)(Search)
