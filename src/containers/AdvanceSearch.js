@@ -91,7 +91,7 @@ class Search extends Component {
         //                 showClass:false,})
 
         // const patentID = this.state.data[classIndex].patents[detailIndex].id
-        // const url = "http://52.14.228.72/patent?id=" + patentID
+        // const url = "http://three10-1714580309.us-east-2.elb.amazonaws.com/patent?id=" + patentID
         // axios.get(url)
         //      .then((res) => {
         //          console.log(res)
@@ -184,7 +184,7 @@ class Search extends Component {
 
     search = () => {
         const queryParameter = this.state.invention
-        const url = 'http://52.14.228.72/search?q=' + queryParameter
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/search?q=' + queryParameter
         this.setState({showSpinner:true,
                         showResult:true,
                         showGraph:true})
