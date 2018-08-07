@@ -192,8 +192,8 @@ class Search extends Component {
         const queryParameter = this.state.invention
         const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/search?q=' + queryParameter
         this.setState({showSpinner:true,
-                        showResult:true,
-                        showGraph:true})
+                        showResult:false,
+                        showGraph:false})
 
         // const newData = [{
         //     classification:'classAB',
@@ -228,10 +228,13 @@ class Search extends Component {
         .then((res) => {
             // console.log(res)
             const newData = res['data']
-            this.setState({data:newData})
+            // this.setState({data:newData})
+            // console.log(newData)
             // this.handleSearch()
             this.setState({showGraph:true,
                             showSpinner:false})
+            this.props.updataData(newData)
+            this.props.history.push('/advanced/classificationGraph')
         })
         .catch((e) => {
             console.log(e)
@@ -314,10 +317,10 @@ class Search extends Component {
                                                         data={this.state.data}
                                                       chooseDetail={this.handleShowDetail}/> : null
 
-        const dataGraph = this.state.showGraph ? <DataGraph
-                                                        data={this.state.data}
-                                                        chooseClass = {this.handleChooseClass}
-                                                       chooseDetail={this.handleShowDetail}/> : null
+        // const dataGraph = this.state.showGraph ? <DataGraph
+        //                                                 data={this.state.data}
+        //                                                 chooseClass = {this.handleChooseClass}
+        //                                                chooseDetail={this.handleShowDetail}/> : null
 
         const patentList = this.state.showClass ? <PatentList data={this.state.data[this.state.classIndex]}
                                                                 classification={this.state.data[this.state.classIndex].classification}
@@ -368,7 +371,7 @@ class Search extends Component {
                 <DialogContent> */}
                 {spinner}
                 {dataList}
-                {dataGraph}
+                {/* {dataGraph} */}
                 {patentList}
                 {dataDetail}
                 {/* </DialogContent>
@@ -424,9 +427,9 @@ class Search extends Component {
     
     const mapDispatchToProps = (dispatch) => {
         return {
-            updataData:() => dispatch({type:'advancedData', }),
-            updateInput:() => dispatch({type:'advancedClassIndex', }),
-            updateIndex:() => dispatch({type:'advancedIndex', })
+            updataData:(data) => dispatch({type:'advancedData', data:data}),
+            // updateClassIndex:(classIndex) => dispatch({type:'advancedClassIndex', classIndex:classIndex}),
+            // updateIndex:(index) => dispatch({type:'advancedIndex', index:index})
         }
     }
 

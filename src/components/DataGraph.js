@@ -2,9 +2,13 @@ import React from 'react'
 import ReactBubbleChart from 'react-bubble-chart';
 import classes from './DataGraph.css'
 import { connect } from 'react-redux';
+import Aux from '../hoc/Aux'
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 
 const dataGraph = (props) => {
+    console.log(props)
         const rawData = props.data
         const data = rawData.map((el, index) => {
             return {
@@ -37,11 +41,20 @@ const dataGraph = (props) => {
 
 
     const handleClick = (event) => {
-        props.chooseClass(event.index)
+        props.updateClassIndex(event.index)
     }
             
+    const goBack = () => {
+        props.history.goBack()
+    }
 
+    const switchToList = () => {
+        props.history.push('/advanced/classificationList')
+    }
+
+    const {classes} = props
     return(
+        <Aux>
         <ReactBubbleChart
             className={classes}
             colorLegend={colorLegend}
@@ -57,22 +70,49 @@ const dataGraph = (props) => {
             onClick={handleClick}
 
     />
+        <Button className={classes.button} variant="contained" onClick={switchToList} color="primary">
+            Show as List
+        </Button>
+        <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
+            Return
+        </Button>
+        </Aux>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
+const styles = theme => ({
+    container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    paddingLeft: 300,
+    paddingRight: 300,
+    },
+    formControl: {
+        margin: theme.spacing.unit,
+    },
+    input:{
+        border:'1px solid gray',
+        borderRadius:'15px',
+    },
+    button: {
+        margin: theme.spacing.unit,
+      },
+});
 
+const mapStateToProps = (state) => {
+    // console.log(state)
+    return {
+        data:state.advancedData
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updataData:() => dispatch({type:'advancedData', }),
-        updateInput:() => dispatch({type:'advancedClassIndex', }),
-        updateIndex:() => dispatch({type:'advancedIndex', })
+        // updataData:() => dispatch({type:'advancedData', }),
+        // updateInput:() => dispatch({type:'advancedClassIndex', }),
+        updateClassIndex:(classIndex) => dispatch({type:'advancedClassIndex', classIndex:classIndex})
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(dataGraph)
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(dataGraph))
 

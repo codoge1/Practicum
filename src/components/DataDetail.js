@@ -10,6 +10,7 @@ import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
 
 
+
 const styles = theme => ({
     root: {
       ...theme.mixins.gutters(),
@@ -36,7 +37,7 @@ const dataDetail = (props) => {
     const { classes } = props;
     
 
-    const patent = props.data[props.index]
+    const patent = props.patent
 
     const switchToList = () => {
         props.history.push('/simple/patentsList')
@@ -103,10 +104,9 @@ const dataDetail = (props) => {
     classes: PropTypes.object.isRequired,
   };
   
-  const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
     return {
-        data:state.simpleData,
-        index:state.simpleIndex
+        patent:state.patent
     }
 }
 
