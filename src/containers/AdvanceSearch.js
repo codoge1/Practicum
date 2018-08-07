@@ -200,12 +200,14 @@ class Search extends Component {
         //     patents:[{
         //         id:'fdasaf',
         //         name:'patentA',
-        //         patentAbstract:'abstractA'
+        //         patentAbstract:'abstractA',
+        //         description:'....'
         //     },
         //     {
         //         id:'asdasaf',
         //         name:'patentB',
-        //         patentAbstract:'abstractB'
+        //         patentAbstract:'abstractB',
+        //         description:'....'
         //     }
         // ]},
         // {
@@ -226,7 +228,7 @@ class Search extends Component {
 
         axios.get(url)
         .then((res) => {
-            // console.log(res)
+            console.log(res)
             const newData = res['data']
             // this.setState({data:newData})
             // console.log(newData)
@@ -264,7 +266,7 @@ class Search extends Component {
                                                         <FormControl fullWidth className={classes.formControl}>
                                                             <FormGroup row>
 
-                                                                <Typography  variant="caption">
+                                                                <Typography style={{fontSize:this.state.weight * 0.4}} variant="caption">
                                                                     Novel Feature
                                                                 </Typography>
                                                                 <Slider onChange={(value) => this.changeWeight(value)}
@@ -283,7 +285,7 @@ class Search extends Component {
                                                         </FormControl>
 
                                                         <FormControl fullWidth className={classes.formControl} >
-                                                            <Typography  variant="caption" align='right'>
+                                                            <Typography  style={{fontSize:40 - this.state.weight * 0.4}} variant="caption" align='right'>
                                                                 Invention Disclosure
                                                             </Typography>
                                                         </FormControl>
