@@ -75,8 +75,9 @@ const dataDetail = (props) => {
                 Content
             </Typography>
             <br />
-            <Highlighter textToHighlight={patent.description}
-                        searchWords={[]}/>
+            {/* <Highlighter textToHighlight='asfasdas <b>gesadasd</b>'
+                        searchWords={[]}/> */}
+                        asfasdas <b>gesadasd</b>
         </Paper>
         </div>
         <div>
