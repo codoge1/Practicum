@@ -9,12 +9,15 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import green from '@material-ui/core/colors/green';
 import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import Aux from '../hoc/Aux'
 
 const AllPatents = (props) => {
     const { classes } = props;
     const list = props.data.map((el, index) => {
-        return (<ExpansionPanel key={el.id}>
+
+        return (<ExpansionPanel className={classes.root} key={el.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Title: {el.name}</Typography>
             </ExpansionPanelSummary>
@@ -23,7 +26,7 @@ const AllPatents = (props) => {
               <Typography>
                 Abstract: { el.patentAbstract }
                 </Typography>
-                <Avatar style={{cursor:'pointer'}} onClick={() => props.chooseDetail(index)} className={classes.greenAvatar}>
+                <Avatar style={{cursor:'pointer'}} onClick={() => goToDetail(index)} className={classes.greenAvatar}>
                   <AssignmentIcon />
                 </Avatar>
                 </div>
@@ -31,9 +34,21 @@ const AllPatents = (props) => {
           </ExpansionPanel>)
     })
 
+    const switchToGraph = () => {
+      props.history.push('/simple/patentsGraph')
+  }
+  
+    const goBack = () => {
+        props.history.push('/')
+    }
 
+    const goToDetail = (index) => {
+        props.chooseDetail(index)
+        props.history.push('/simple/detail')
+    }
 
     return (
+      <Aux>
         <div className={classes.root}>
         <Typography variant="headline" gutterBottom>
             Search Content:{props.input}
@@ -41,13 +56,30 @@ const AllPatents = (props) => {
         
         <br/>
         <br/>
+        <div className={classes.container}>
         {list}
         </div>
+        </div>
+        <div>
+        <Button className={classes.button} variant="contained" onClick={() => switchToGraph()} color="primary">
+                                                            Show All as Graph
+                                                         </Button>
+        <Button className={classes.button} variant="contained" onClick={() => goBack()} color="primary">
+                                                            Return
+                                                            </Button>
+        </div>
+      </Aux>
     )
 }
 
 
 const styles = theme => ({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      paddingLeft: 300,
+      paddingRight: 300,
+    },
     root: {
       width: '100%',
     },
@@ -63,10 +95,26 @@ const styles = theme => ({
       color: '#fff',
       backgroundColor: green[500],
     },
+    button: {
+      margin: theme.spacing.unit,
+    },
   });
 
 AllPatents.propTypes = {
 classes: PropTypes.object.isRequired,
 };
   
-  export default withStyles(styles)(AllPatents);
+const mapStateToProps = (state) => {
+  return {
+      data:state.simpleData,
+      input:state.simpleInput,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      chooseDetail:(index) => dispatch({type:'simpleIndex', index:index})
+  }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AllPatents))

@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import green from '@material-ui/core/colors/green';
 import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-
+import { connect } from 'react-redux';
 
 
 const patentList = (props) => {
@@ -81,4 +81,18 @@ patentList.propTypes = {
 classes: PropTypes.object.isRequired,
 };
   
-  export default withStyles(styles)(patentList);
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      updataData:() => dispatch({type:'advancedData', }),
+      updateInput:() => dispatch({type:'advancedClassIndex', }),
+      updateIndex:() => dispatch({type:'advancedIndex', })
+  }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(patentList))

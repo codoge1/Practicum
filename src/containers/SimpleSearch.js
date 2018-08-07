@@ -19,22 +19,24 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import AllPatentsList from '../components/AllPatentsList';
-import AllPatentGraph from '../components/AllPatentsGraph'
+import AllPatentsGraph from '../components/AllPatentsGraph'
+import { Route, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
 
 
 class Search extends Component {
     state = {
         input:"",
         title:true,
-        description:false,
-        claim:false,
+        description:true,
+        claim:true,
 
         showResult:false,
-        showGraph:false,
-        showList:false,
-        showDetail:false,
-        detailIndex:-1,
-        data:[],
+        // showGraph:false,
+        // showList:false,
+        // showDetail:false,
+        // detailIndex:-1,
+        // data:[],
         showSpinner:false,
         // searchBy:1,     //1-> all 2-> title 3->id 4-> abstract 5-> content
     }
@@ -49,42 +51,38 @@ class Search extends Component {
 
 
 
-    handleShowList = () => {
-        this.setState({showList:true, 
-                        showGraph:false,
-                        showDetail:false,
-                        showClass:false})
-    }
+    // handleShowList = () => {
+    //     this.setState({showList:true, 
+    //                     showGraph:false,
+    //                     showDetail:false,
+    //                     showClass:false})
+    // }
 
-    handleShowGraph = () => {
-        this.setState({showList:false, 
-                        showGraph:true,
-                        showDetail:false,
-                        showClass:false})
-    }
+    // handleShowGraph = () => {
+    //     this.setState({showList:false, 
+    //                     showGraph:true,
+    //                     showDetail:false,
+    //                     showClass:false})
+    // }
 
-    handleShowDetail = (detailIndex) => {
-        this.setState({showDetail:true, 
-                        showList:false,
-                        showGraph:false,
-                        detailIndex:detailIndex})
-    }
+    // handleShowDetail = (detailIndex) => {
+    //     this.setState({showDetail:true, 
+    //                     showList:false,
+    //                     showGraph:false,
+    //                     detailIndex:detailIndex})
+    // }
 
-    handleCloseDetail = () => {
-        this.setState({showDetail:false, 
-                        showList:true, 
-                        showGraph:false,
-                        detailIndex:-1})
-    }
+    // handleCloseDetail = () => {
+    //     this.setState({showDetail:false, 
+    //                     showList:true, 
+    //                     showGraph:false,
+    //                     detailIndex:-1})
+    // }
 
 
-    handleReturnToSearch = () => {
-        this.setState({showDetail:false, 
-                        showList:false, 
-                        showGraph:false,
-                        showSpinner:false,
-                        showResult:false})
-    }
+    // handleReturnToSearch = () => {
+    //     this.props.history.push('/')
+    // }
 
 
     handleKeyPress = (event) => {
@@ -94,9 +92,14 @@ class Search extends Component {
     }
 
 
-    handleSelect = (event) => {
-        this.setState({searchBy:event.target.value})
+    // handleSelect = (event) => {
+    //     this.setState({searchBy:event.target.value})
+    // }
+
+    handleSwitch = () => {
+        this.props.history.push('/advanced')
     }
+
 
     search = () => {
         let queryParameter = this.state.input
@@ -111,8 +114,7 @@ class Search extends Component {
         }
         const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/search?q=' + queryParameter
         this.setState({showSpinner:true,
-                        showResult:true,
-                        showList:false})
+                        showResult:true})
 
         // const newData = [
         //     {
@@ -162,13 +164,16 @@ class Search extends Component {
             rawData.forEach((obj) => {
                 patents = patents.concat(obj.patents)
             })
-            this.setState({data:patents})
-            this.setState({showGraph:true,
-                            showResult:true,
-                            showSpinner:false})
+            this.props.updataData(patents)
+            this.props.updateInput(this.state.input)
+
+            // this.setState({data:patents})
+            this.setState({showSpinner:false,
+                            showResult:true})
+            this.props.history.push('/simple/patentsGraph')
         })
         .catch((e) => {
-            console.log(e)
+            // console.log(e)
         })
     }
 
@@ -178,7 +183,7 @@ class Search extends Component {
         const query = this.state.showResult ? null : <Aux>
                                                         
                                                         <Typography variant="display3" color='inherit' gutterBottom>
-                                                            Begin to Search Your Patents!
+                                                            Begin to Search Your Inventions!
                                                         </Typography>
 
 
@@ -210,8 +215,8 @@ class Search extends Component {
                                                                 <FormControlLabel
                                                                 control={
                                                                     <Checkbox
-                                                                    checked={this.state.abstract}
-                                                                    onChange={this.handleChecked('abstract')}
+                                                                    checked={this.state.description}
+                                                                    onChange={this.handleChecked('description')}
                                                                     // value="checkedA"
                                                                     />
                                                                 }
@@ -233,43 +238,43 @@ class Search extends Component {
                                                             <FormControl fullWidth className={classes.formControl}>
                                                                 <FormGroup row>
                                                                     <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
-                                                                    <Button className={classes.button} variant="contained" color="secondary" onClick={this.props.switch}>Advanced Search</Button>
+                                                                    <Button className={classes.button} variant="contained" color="secondary" onClick={this.handleSwitch}>Advanced Search</Button>
                                                                 </FormGroup>
                                                             </FormControl>
 
                                                     </Aux>
                                              
 
-        const patentList = this.state.showList ? <AllPatentsList data={this.state.data}
-                                                                input={this.state.input}
+        // const patentList = this.state.showList ? <AllPatentsList data={this.state.data}
+        //                                                         input={this.state.input}
                                                                 // classIndex={this.state.classIndex}
-                                                                chooseDetail={this.handleShowDetail}/> : null
+        //                                                         chooseDetail={this.handleShowDetail}/> : null
 
-        const patentGraph = this.state.showGraph ? <AllPatentGraph data={this.state.data}
-                                                                    input={this.state.input}
-                                                                    chooseDetail={this.handleShowDetail} /> : null
+        // const patentGraph = this.state.showGraph ? <AllPatentsGraph data={this.state.data}
+        //                                                             input={this.state.input}
+        //                                                             chooseDetail={this.handleShowDetail} /> : null
 
-        const toListBotton = this.state.showGraph || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowList} color="primary">
-                                                            Show All as List
-                                                         </Button> : null
-        const toGraphBotton = this.state.showList || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowGraph} color="primary">
-                                                            Show All as Graph
-                                                          </Button> : null
+        // const toListBotton = this.state.showGraph || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowList} color="primary">
+        //                                                     Show All as List
+        //                                                  </Button> : null
+        // const toGraphBotton = this.state.showList || this.state.showDetail ? <Button className={classes.button} variant="contained" onClick={this.handleShowGraph} color="primary">
+        //                                                     Show All as Graph
+        //                                                   </Button> : null
 
-        const dataDetail = this.state.showDetail ? <DataDetail  keyword={this.state.input} data={this.state.data[this.state.detailIndex]}/> : null
+        // const dataDetail = this.state.showDetail ? <DataDetail  keyword={this.state.input} data={this.state.data[this.state.detailIndex]}/> : null
 
 
 
-        const returnToSearch = this.state.showResult ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToSearch} color="primary">
-                                                        Back to Search
-                                                    </Button> : null
+        // const returnToSearch = this.state.showResult ? <Button className={classes.button} variant="contained" onClick={this.handleReturnToSearch} color="primary">
+        //                                                 Back to Search
+        //                                             </Button> : null
 
         const spinner = this.state.showSpinner ? <div style={{marginLeft:'50%'}}><FadeLoader color={'#00ff00'}/></div> : null
 
         return (
             <Aux>
             <div className={classes.container}>
-
+                {spinner}   
                 {query}
                 {/* <Dialog
                 fullWidth
@@ -280,10 +285,10 @@ class Search extends Component {
                 >
                 <DialogTitle id="responsive-dialog-title">{"Search Term: "} {this.state.invention} :</DialogTitle>
                 <DialogContent> */}
-                {spinner}
-                {patentList}
-                {patentGraph}
-                {dataDetail}
+                
+                {/* {patentList} */}
+                {/* {patentGraph} */}
+                {/* {dataDetail} */}
                 {/* </DialogContent>
                 <DialogActions> */}
                     {/* <Button onClick={this.handleCloseModal} color="primary">
@@ -292,11 +297,11 @@ class Search extends Component {
                 {/* </DialogActions> */}
                 {/* </Dialog> */}
             </div>
-            <div>
-            {toListBotton}
-            {toGraphBotton}
-            {returnToSearch}
-            </div>
+            {/* <div> */}
+            {/* {toListBotton} */}
+            {/* {toGraphBotton} */}
+            {/* {returnToSearch} */}
+            {/* </div> */}
             </Aux>
         )
     }
@@ -325,4 +330,18 @@ class Search extends Component {
         classes: PropTypes.object.isRequired,
     };
   
-export default withStyles(styles)(Search)
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updataData:(data) => dispatch({type:'simpleData', data:data}),
+        updateInput:(input) => dispatch({type:'simpleInput', input:input}),
+        // updateIndex:(index) => dispatch({type:'simpleIndex', index:index})
+    }
+}
+
+export default withStyles(styles)(connect(mapStateToProps,mapDispatchToProps)(Search))

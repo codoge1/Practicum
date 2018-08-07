@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactBubbleChart from 'react-bubble-chart';
 import classes from './DataGraph.css'
+import { connect } from 'react-redux';
+
 
 const dataGraph = (props) => {
         const rawData = props.data
@@ -58,4 +60,19 @@ const dataGraph = (props) => {
     )
 }
 
-export default dataGraph
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updataData:() => dispatch({type:'advancedData', }),
+        updateInput:() => dispatch({type:'advancedClassIndex', }),
+        updateIndex:() => dispatch({type:'advancedIndex', })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(dataGraph)
+

@@ -10,6 +10,7 @@ import green from '@material-ui/core/colors/green';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { connect } from 'react-redux';
 
 
 const dataList = (props) => {
@@ -81,4 +82,18 @@ dataList.propTypes = {
 classes: PropTypes.object.isRequired,
 };
   
-  export default withStyles(styles)(dataList);
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      updataData:() => dispatch({type:'advancedData', }),
+      updateInput:() => dispatch({type:'advancedClassIndex', }),
+      updateIndex:() => dispatch({type:'advancedIndex', })
+  }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(dataList))

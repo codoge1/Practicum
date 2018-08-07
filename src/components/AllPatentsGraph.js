@@ -3,6 +3,10 @@ import ReactBubbleChart from 'react-bubble-chart';
 import classes from './DataGraph.css'
 import Aux from '../hoc/Aux'
 import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+
 
 const dataGraph = (props) => {
         const rawData = props.data
@@ -36,11 +40,22 @@ const dataGraph = (props) => {
 
     const handleClick = (event) => {
         props.chooseDetail(event.index)
+        props.history.push('/simple/detail')
     }
-            
+
+    const switchToList = () => {
+        props.history.push('/simple/patentsList')
+    }
+    
+    const goBack = () => {
+        props.history.push('/')
+    }
+
+    const { classes } = props;
 
     return(
         <Aux>
+        <div className={classes.container}>
             <div style={{width:'100%'}}>
         <Typography variant="headline" gutterBottom>
             Search Content:{props.input}
@@ -61,8 +76,50 @@ const dataGraph = (props) => {
 
     />
         </div>
+        </div>
+        <div>
+        <Button className={classes.button} variant="contained" onClick={() => switchToList()} color="primary">
+                                                            Show All as List
+                                                         </Button>
+        <Button className={classes.button} variant="contained" onClick={() => goBack()} color="primary">
+                                                            Return
+                                                            </Button>
+        </div>
     </Aux>
     )
 }
 
-export default dataGraph
+const styles = theme => ({
+    container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    paddingLeft: 300,
+    paddingRight: 300,
+    },
+    formControl: {
+        margin: theme.spacing.unit,
+    },
+    input:{
+        border:'1px solid gray',
+        borderRadius:'15px',
+    },
+    button: {
+        margin: theme.spacing.unit,
+      },
+});
+
+const mapStateToProps = (state) => {
+    return {
+        data:state.simpleData,
+        input:state.simpleInput,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        chooseDetail:(index) => dispatch({type:'simpleIndex', index:index})
+    }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(dataGraph))
+

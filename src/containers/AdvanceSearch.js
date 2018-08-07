@@ -25,6 +25,7 @@ import Tooltip from 'rc-tooltip';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import { FormGroup } from '../../node_modules/@material-ui/core';
+import { connect } from 'react-redux';
 
 
 
@@ -182,6 +183,11 @@ class Search extends Component {
           this.setState({weight:value})
       }
 
+
+      handleSwitch = () => {
+        this.props.history.push('/')
+    }
+
     search = () => {
         const queryParameter = this.state.invention
         const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/search?q=' + queryParameter
@@ -282,7 +288,7 @@ class Search extends Component {
                                                         <FormControl fullWidth className={classes.formControl}>
                                                             <FormGroup row>
                                                                 <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
-                                                                <Button className={classes.button} variant="contained" color="secondary" onClick={this.props.switch}>Simple Search</Button>
+                                                                <Button className={classes.button} variant="contained" color="secondary" onClick={this.handleSwitch}>Simple Search</Button>
                                                             </FormGroup>
                                                         </FormControl>
 
@@ -409,4 +415,19 @@ class Search extends Component {
         classes: PropTypes.object.isRequired,
     };
 
-export default withStyles(styles)(Search)
+
+    const mapStateToProps = (state) => {
+        return {
+    
+        }
+    }
+    
+    const mapDispatchToProps = (dispatch) => {
+        return {
+            updataData:() => dispatch({type:'advancedData', }),
+            updateInput:() => dispatch({type:'advancedClassIndex', }),
+            updateIndex:() => dispatch({type:'advancedIndex', })
+        }
+    }
+
+    export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Search))
