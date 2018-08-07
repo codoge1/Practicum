@@ -56,9 +56,11 @@ const AllPatents = (props) => {
         
         <br/>
         <br/>
+        
         <div className={classes.container}>
         {list}
         </div>
+
         </div>
         <div>
         <Button className={classes.button} variant="contained" onClick={() => switchToGraph()} color="primary">

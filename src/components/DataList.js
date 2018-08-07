@@ -11,46 +11,72 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { connect } from 'react-redux';
+import Aux from '../hoc/Aux'
+import Button from '@material-ui/core/Button';
 
 
 const dataList = (props) => {
     const { classes } = props;
-    const dataList = props.data.map((el, classIndex) => {
+    // console.log(props)
+
+    const list = props.data.map((el, classIndex) => {
         const patents = el.patents
-        const list = patents.map((patent, detailIndex) => {
+        const patentsList = patents.map((patent, detailIndex) => {
             return <ListItem key={detailIndex + "," + classIndex}
-                            dense
-                            button
-                            onClick={() => props.chooseDetail(classIndex, detailIndex)}
-                            // className={classes.listItem}
-                            >
-                            <ListItemText primary={patent.name}/>
-                            </ListItem>
-        })
+                          dense
+                          button
+                          onClick={() => chooseDetail(classIndex, detailIndex)}
+                          // className={classes.listItem}
+                          >
+                          <ListItemText primary={patent.name}/>
+                          </ListItem>
+      })
+        return (
+                <ExpansionPanel key={classIndex}>
+                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography className={classes.heading}>Classification: {el.classification}</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <div>
+                    <Typography>
+                      Number of Patents: { patentsList.length }
+                    </Typography>
 
-        return (<ExpansionPanel key={classIndex}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Classification: {el.classification}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <div>
-              <Typography>
-                Number of Patents: { list.length }
-              </Typography>
+                    <List className={classes.list}>
+                      {patentsList}
+                    </List>
+                    </div>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>)})
 
-              <List className={classes.list}>
-                {list}
-              </List>
-              </div>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>)
-    })
+      const switchToGraph = () => {
+        props.history.push('/advanced/classificationGraph')
+      }
+
+      const goBack = () => {
+        props.history.goBack()
+      }
+
+      const chooseDetail = (classIndex, index) => {
+          props.updateClassIndex(classIndex)
+          props.updateIndex(index)
+          props.history.push('/simple/detail')
+      }
+
 
 
     return (
+      <Aux>
         <div className={classes.root}>
-        {dataList}
+        {list}
+        <Button className={classes.button} variant="contained" onClick={switchToGraph} color="primary">
+              Show as List
+        </Button>
+        <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
+              Return
+        </Button>
         </div>
+      </Aux>
     )
 }
 
@@ -76,6 +102,9 @@ const styles = theme => ({
       color: '#fff',
       backgroundColor: green[500],
     },
+    button: {
+      margin: theme.spacing.unit,
+    },
   });
 
 dataList.propTypes = {
@@ -84,15 +113,15 @@ classes: PropTypes.object.isRequired,
   
 const mapStateToProps = (state) => {
   return {
-
+      data:state.advancedData
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      updataData:() => dispatch({type:'advancedData', }),
-      updateInput:() => dispatch({type:'advancedClassIndex', }),
-      updateIndex:() => dispatch({type:'advancedIndex', })
+      // updataData:() => dispatch({type:'advancedData', }),
+      updateClassIndex:(classIndex) => dispatch({type:'advancedClassIndex', classIndex:classIndex}),
+      updateIndex:(index) => dispatch({type:'advancedIndex', index:index})
   }
 }
 

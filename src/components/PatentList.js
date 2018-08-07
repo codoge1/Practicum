@@ -10,6 +10,8 @@ import green from '@material-ui/core/colors/green';
 import Avatar from '@material-ui/core/Avatar';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { connect } from 'react-redux';
+import Aux from '../hoc/Aux'
+import Button from '@material-ui/core/Button';
 
 
 const patentList = (props) => {
@@ -22,11 +24,11 @@ const patentList = (props) => {
       }
       return 0;
     }
-    let patents = props.data.patents;
+    let patents = props.data[props.classIndex].patents
     patents.sort(compare);
     console.log(patents)
     const list = patents.map((el, index) => {
-        return (<ExpansionPanel key={el.id}>
+        return (<ExpansionPanel className={classes.root} key={el.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Title: {el.name}</Typography>
             </ExpansionPanelSummary>
@@ -35,7 +37,7 @@ const patentList = (props) => {
               <Typography>
                 Abstract: { el.patentAbstract }
                 </Typography>
-                <Avatar style={{cursor:'pointer'}} onClick={() => props.chooseDetail(props.classIndex, index)} className={classes.greenAvatar}>
+                <Avatar style={{cursor:'pointer'}} onClick={() => chooseDetail(index)} className={classes.greenAvatar}>
                   <AssignmentIcon />
                 </Avatar>
                 </div>
@@ -45,16 +47,44 @@ const patentList = (props) => {
 
 
 
+    const chooseDetail = (index) => {
+        props.updateIndex(index)
+        props.history.push('/simple/detail')
+    }
+
+    const goBack = () => {
+      props.history.goBack()
+    }
+
+    const goBackToSearch = () => {
+      props.history.push('/advanced')
+    }
+
     return (
+      <Aux>
         <div className={classes.root}>
         <Typography variant="headline" gutterBottom>
-          Classification:{ props.classification }
+          Classification:{ props.data[props.classIndex].classification }
         </Typography>
         
         <br/>
         <br/>
+        
+        <div className={classes.container} >
         {list}
         </div>
+
+        </div>
+
+        <div>
+        <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
+            Return
+        </Button>
+        <Button className={classes.button} variant="contained" onClick={goBackToSearch} color="primary">
+            Return to Search
+        </Button>
+        </div>
+      </Aux>
     )
 }
 
@@ -75,6 +105,15 @@ const styles = theme => ({
       color: '#fff',
       backgroundColor: green[500],
     },
+    button: {
+      margin: theme.spacing.unit,
+    },
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      paddingLeft: 300,
+      paddingRight: 300,
+      },
   });
 
 patentList.propTypes = {
@@ -83,15 +122,16 @@ classes: PropTypes.object.isRequired,
   
 const mapStateToProps = (state) => {
   return {
-
+      data:state.advancedData,
+      classIndex:state.advancedClassIndex,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      updataData:() => dispatch({type:'advancedData', }),
-      updateInput:() => dispatch({type:'advancedClassIndex', }),
-      updateIndex:() => dispatch({type:'advancedIndex', })
+      // updataData:() => dispatch({type:'advancedData', }),
+      // updateInput:() => dispatch({type:'advancedClassIndex', }),
+      updateIndex:(index) => dispatch({type:'advancedIndex', index:index})
   }
 }
 

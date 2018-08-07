@@ -80,12 +80,12 @@ const dataDetail = (props) => {
         </Paper>
         </div>
         <div>
-        <Button className={classes.button} variant="contained" onClick={switchToList} color="primary">
+        {/* <Button className={classes.button} variant="contained" onClick={switchToList} color="primary">
                                                             Show All as List
                                                          </Button>
         <Button className={classes.button} variant="contained" onClick={switchToGraph} color="primary">
                                                             Show All as Graph
-                                                            </Button>
+                                                            </Button> */}
         <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
                                                             Return
                                                             </Button>

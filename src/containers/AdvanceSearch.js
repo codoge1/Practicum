@@ -192,7 +192,7 @@ class Search extends Component {
         const queryParameter = this.state.invention
         const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/search?q=' + queryParameter
         this.setState({showSpinner:true,
-                        showResult:false,
+                        showResult:true,
                         showGraph:false})
 
         // const newData = [{
@@ -370,10 +370,10 @@ class Search extends Component {
                 <DialogTitle id="responsive-dialog-title">{"Search Term: "} {this.state.invention} :</DialogTitle>
                 <DialogContent> */}
                 {spinner}
-                {dataList}
+                {/* {dataList} */}
                 {/* {dataGraph} */}
-                {patentList}
-                {dataDetail}
+                {/* {patentList}
+                {dataDetail} */}
                 {/* </DialogContent>
                 <DialogActions> */}
                     {/* <Button onClick={this.handleCloseModal} color="primary">
@@ -383,12 +383,12 @@ class Search extends Component {
                 {/* </Dialog> */}
             </div>
             <div>
-            {toListBotton}
-            {toGraphBotton}
+            {/* {toListBotton}
+            {toGraphBotton} */}
             {/* {toAllResults} */}
-            {returnToClass}
+            {/* {returnToClass}
             {returnToPatents}
-            {returnToSearch}
+            {returnToSearch} */}
             </div>
             </Aux>
         )

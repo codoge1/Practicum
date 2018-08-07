@@ -42,6 +42,7 @@ const dataGraph = (props) => {
 
     const handleClick = (event) => {
         props.updateClassIndex(event.index)
+        props.history.push('/advanced/classification/patentsList')
     }
             
     const goBack = () => {
