@@ -13,14 +13,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { connect } from 'react-redux';
 import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
+import axios from 'axios'
 
 
 const dataList = (props) => {
     const { classes } = props;
     // console.log(props)
 
-    const list = props.data.map((el, classIndex) => {
-        const patents = el.patents
+    const list = props.data.clusters.map((el, classIndex) => {
+        const patents = el.docs
         const patentsList = patents.map((patent, detailIndex) => {
             return <ListItem key={detailIndex + "," + classIndex}
                           dense
@@ -34,7 +35,7 @@ const dataList = (props) => {
         return (
                 <ExpansionPanel key={classIndex}>
                   <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Classification: {el.classification}</Typography>
+                    <Typography className={classes.heading}>Classification: {el.label}</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <div>
@@ -58,9 +59,16 @@ const dataList = (props) => {
       }
 
       const chooseDetail = (classIndex, index) => {
-          props.updateClassIndex(classIndex)
-          props.updateIndex(index)
-          props.history.push('/simple/detail')
+          const patent = props.data.clusters[classIndex].docs[index]//not contain description
+          const id = patent.id
+          const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/patent?id=' + id
+          
+          axios.get(url)
+               .then((res) => {
+                  props.updatePatent(res.data[0])
+                  props.history.push('/simple/detail')
+               })
+
       }
 
 
@@ -120,8 +128,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
       // updataData:() => dispatch({type:'advancedData', }),
-      updateClassIndex:(classIndex) => dispatch({type:'advancedClassIndex', classIndex:classIndex}),
-      updateIndex:(index) => dispatch({type:'advancedIndex', index:index})
+      updateClassData:(classData) => dispatch({type:'classData', classData:classData}),
+      updatePatent:(patent) => dispatch({type:'patent', patent:patent})
   }
 }
 

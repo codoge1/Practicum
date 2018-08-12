@@ -8,6 +8,7 @@ import Input from '@material-ui/core/Input';
 import { connect } from 'react-redux';
 import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
+import boldClass from './DataDetail.css'
 
 
 
@@ -75,9 +76,11 @@ const dataDetail = (props) => {
                 Content
             </Typography>
             <br />
+            <div className={boldClass}>
             {/* <Highlighter textToHighlight='asfasdas <b>gesadasd</b>'
                         searchWords={[]}/> */}
-                        asfasdas <b>gesadasd</b>
+                {patent.description}
+            </div>
         </Paper>
         </div>
         <div>

@@ -9,23 +9,22 @@ import { withStyles } from '@material-ui/core/styles';
 
 const dataGraph = (props) => {
     console.log(props)
-        const rawData = props.data
-        const data = rawData.map((el, index) => {
+        const rawData = props.data.clusters
+        const data = rawData.map((cluster, index) => {
             return {
-                _id:el.classification,
+                _id:index,
                 index:index,
-                // value:el.score,
-                classification:el.classification,
-                value:el.patents.length,
-                number:el.patents.length,
-                displayText:el.classification,
+                classification:cluster.label,
+                value:cluster.score,
+                number:cluster.docs.length,
+                displayText:cluster.label,
                 colorValue:Math.random() * 2 - 1
             }
         })
        
     const colorLegend = [
-        '#ffc0cb', '#ffe4e1', '#cafe69', '#cdea90', '#afeefe', '#ffee88', '#ccaabb', '#00a7b0', '#93afbf', '#2f6276', 
-        '#00ff00', '#ffff00', '#ff00ff', '#ffff66', '#ccff00', '#b6fcd5', '#660066', '#0e2f44', '#0000ff', '#f0f8ff'
+        '#ff0000', '#ffd700', '#00ffff', '#ff7373', '#0000ff', '#00ff00', '#ffff00', '#66cdaa', '#ff00ff', '#afeeee', 
+        '#00ff7f', '#ff4040', '#ccff00', '#fef65b', '#ff4444', '#ff1493', '#6dc066', '#e6e6fa', '#ccff00', '#0099cc'
       ]
       
 
@@ -41,7 +40,8 @@ const dataGraph = (props) => {
 
 
     const handleClick = (event) => {
-        props.updateClassIndex(event.index)
+        let data = props.data.clusters[event.index]
+        props.updateClassData(data)
         props.history.push('/advanced/classification/patentsList')
     }
             
@@ -111,7 +111,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         // updataData:() => dispatch({type:'advancedData', }),
         // updateInput:() => dispatch({type:'advancedClassIndex', }),
-        updateClassIndex:(classIndex) => dispatch({type:'advancedClassIndex', classIndex:classIndex})
+        // updateClassification:(label) => dispatch({type:'classification', classification:label}),
+        updateClassData:(data) => dispatch({type:'classData', classData:data})
     }
 }
 

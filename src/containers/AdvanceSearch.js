@@ -190,40 +190,49 @@ class Search extends Component {
 
     search = () => {
         const queryParameter = this.state.invention
-        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/search?q=' + queryParameter
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/search?q=' + queryParameter
         this.setState({showSpinner:true,
                         showResult:true,
                         showGraph:false})
 
-        // const newData = [{
-        //     classification:'classAB',
-        //     patents:[{
-        //         id:'fdasaf',
-        //         name:'patentA',
-        //         patentAbstract:'abstractA',
-        //         description:'....'
-        //     },
-        //     {
-        //         id:'asdasaf',
-        //         name:'patentB',
-        //         patentAbstract:'abstractB',
-        //         description:'....'
+        // const newData = {
+        //     "clusters":[
+        //       {
+        //         "labels":[
+        //           "Quantum Logic"
+        //         ],
+        //         "score":3.181807575419961,
+        //         "subclusters":[
+          
+        //         ],
+        //         "otherTopics":false,
+        //         "docs":[
+        //       {
+        //         "id":"US-2014088734-A1",
+        //         "name":"<b>Controller</b> support device, <b>controller</b> support <b>program</b> to be <b>executed</b> in said device, and recording medium storing said <b>program</b>",
+        //         "description":"Preferably the <b>controller</b> support device  8  is constructed by a <b>notebook</b> personal <b>computer</b> having excellent <b>portability</b> from the viewpoint of maintenance",
+        //         "patentAbstract":"A <b>controller</b> support <b>program</b> causes an arithmetic unit to <b>execute</b> total <b>execution</b> time acquisition <b>processing</b> of acquiring a total <b>execution</b> time and output <b>processing</b> of outputting the total <b>execution</b> time. ",
+        //         "score":0.16566548
+        //       },
+        //       {
+        //         "id":"US-9129063-B2",
+        //         "name":"Visualizing a <b>computer</b> <b>program</b> <b>execution</b> history",
+        //         "description":"System  10  also includes a <b>processor</b>  22 , operatively coupled to bus  12 , for <b>processing</b> information and <b>executing</b> <b>instructions</b> or operations. ",
+        //         "patentAbstract":"The <b>software</b> application profiling environment further displays some or all of the <b>computer</b> <b>program</b> <b>instructions</b> of the <b>computer</b> <b>program</b>, and further displays a visualization of the stored <b>execution</b> history information. ",
+        //         "score":0.16566491
+        //       },
+        //       {
+        //         "id":"US-2014344787-A1",
+        //         "name":"Visualizing a <b>computer</b> <b>program</b> <b>execution</b> history",
+        //         "description":"System  10  also includes a <b>processor</b>  22 , operatively coupled to bus  12 , for <b>processing</b> information and <b>executing</b> <b>instructions</b> or operations. ",
+        //         "patentAbstract":"The <b>software</b> application profiling environment further displays some or all of the <b>computer</b> <b>program</b> <b>instructions</b> of the <b>computer</b> <b>program</b>, and further displays a visualization of the stored <b>execution</b> history information. ",
+        //         "score":0.16566491
+        //       }
+        //     ]
+        //       },
+        //     ]
         //     }
-        // ]},
-        // {
-        //     classification:'classCD',
-        //     patents:[{
-        //         id:'fdasafdfFS',
-        //         name:'patentC',
-        //         patentAbstract:'abstractC'
-        //     },
-        //     {
-        //         id:'asdHDFGSasaf',
-        //         name:'patentD',
-        //         patentAbstract:'abstractD'
-        //     }
-        // ]},
-        // ]
+        
         // this.setState({data:newData})
 
         axios.get(url)

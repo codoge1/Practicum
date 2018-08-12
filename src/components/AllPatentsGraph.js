@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios'
 
 
 const dataGraph = (props) => {
@@ -14,7 +15,7 @@ const dataGraph = (props) => {
             return {
                 _id:el.id,
                 index:index,
-                value:1,
+                value:el.score,
                 title:el.name,
                 displayText:el.name,
                 colorValue:Math.random() * 2 - 1
@@ -22,8 +23,8 @@ const dataGraph = (props) => {
         })
        
     const colorLegend = [
-        '#ffc0cb', '#ffe4e1', '#cafe69', '#cdea90', '#afeefe', '#ffee88', '#ccaabb', '#00a7b0', '#93afbf', '#2f6276', 
-        '#00ff00', '#ffff00', '#ff00ff', '#ffff66', '#ccff00', '#b6fcd5', '#660066', '#0e2f44', '#0000ff', '#f0f8ff'
+        '#ff0000', '#ffd700', '#00ffff', '#ff7373', '#0000ff', '#00ff00', '#ffff00', '#66cdaa', '#ff00ff', '#afeeee', 
+        '#00ff7f', '#ff4040', '#ccff00', '#fef65b', '#ff4444', '#ff1493', '#6dc066', '#e6e6fa', '#ccff00', '#0099cc'
       ]
       
 
@@ -39,8 +40,15 @@ const dataGraph = (props) => {
 
 
     const handleClick = (event) => {
-        props.chooseDetail(event.index)
-        props.history.push('/simple/detail')
+        const patent = props.data[event.index]
+        const id = patent.id
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/patent?id=' + id
+        
+        axios.get(url)
+            .then((res) => {
+                props.updatePatent(res.data[0])
+                props.history.push('/simple/detail')
+            })
     }
 
     const switchToList = () => {
@@ -117,7 +125,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        chooseDetail:(index) => dispatch({type:'simpleIndex', index:index})
+        updatePatent:(patent) => dispatch({type:'patent', patent:patent})
     }
 }
 

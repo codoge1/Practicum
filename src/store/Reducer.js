@@ -2,12 +2,10 @@
 const initialState = {
     simpleData:[],
     simpleInput:'',
-    simpleIndex:-1,
-
-    advancedData:[],
-    advancedClassIndex:-1,
-    advancedIndex:-1,
     
+
+    advancedData:{},
+    classData:[],
     patent:{},
 }
 
@@ -34,16 +32,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 advancedData:action.data
             }
-        case ('advancedClassIndex'):
+        case ('classData'):
             return {
                 ...state,
-                advancedClassIndex:action.classIndex
+                classData:action.classData
             }
-        case ('advancedIndex'):
+        case ('patent'):
             return {
                 ...state,
-                advancedIndex:action.index,
-                patent:state.advancedData[state.advancedClassIndex].patents[action.index]
+                patent:action.patent
             }
     }
 }

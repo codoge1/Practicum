@@ -12,6 +12,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Aux from '../hoc/Aux'
+import axios from 'axios'
+
 
 const AllPatents = (props) => {
     const { classes } = props;
@@ -43,8 +45,16 @@ const AllPatents = (props) => {
     }
 
     const goToDetail = (index) => {
-        props.chooseDetail(index)
-        props.history.push('/simple/detail')
+        const patent = props.data[index]
+        const id = patent.id
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/patent?id=' + id
+        
+        axios.get(url)
+            .then((res) => {
+                props.updatePatent(res.data[0])
+                props.history.push('/simple/detail')
+            })
+
     }
 
     return (
@@ -115,7 +125,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      chooseDetail:(index) => dispatch({type:'simpleIndex', index:index})
+    updatePatent:(patent) => dispatch({type:'patent', patent:patent})
   }
 }
 

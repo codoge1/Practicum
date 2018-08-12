@@ -12,6 +12,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import { connect } from 'react-redux';
 import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
+import axios from 'axios'
 
 
 const patentList = (props) => {
@@ -24,7 +25,7 @@ const patentList = (props) => {
       }
       return 0;
     }
-    let patents = props.data[props.classIndex].patents
+    let patents = props.classData.docs
     patents.sort(compare);
     console.log(patents)
     const list = patents.map((el, index) => {
@@ -48,8 +49,16 @@ const patentList = (props) => {
 
 
     const chooseDetail = (index) => {
-        props.updateIndex(index)
-        props.history.push('/simple/detail')
+        const patent = props.classData.docs[index]
+        const id = patent.id
+
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/patent?id=' + id
+        axios.get(url)
+             .then((res) => {
+                props.updatePatent(res.data[0])
+                props.history.push('/simple/detail')
+             })
+
     }
 
     const goBack = () => {
@@ -64,7 +73,7 @@ const patentList = (props) => {
       <Aux>
         <div className={classes.root}>
         <Typography variant="headline" gutterBottom>
-          Classification:{ props.data[props.classIndex].classification }
+          Classification:{ props.classData.label }
         </Typography>
         
         <br/>
@@ -122,8 +131,7 @@ classes: PropTypes.object.isRequired,
   
 const mapStateToProps = (state) => {
   return {
-      data:state.advancedData,
-      classIndex:state.advancedClassIndex,
+      classData:state.classData
   }
 }
 
@@ -131,7 +139,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
       // updataData:() => dispatch({type:'advancedData', }),
       // updateInput:() => dispatch({type:'advancedClassIndex', }),
-      updateIndex:(index) => dispatch({type:'advancedIndex', index:index})
+      updatePatent:(patent) => dispatch({type:'patent', patent:patent})
   }
 }
 
