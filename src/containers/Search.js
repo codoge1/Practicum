@@ -10,6 +10,8 @@ import DataDetail from '../components/DataDetail';
 import DataList from '../components/DataList'
 import DataGraph from '../components/DataGraph'
 import PatentList from '../components/PatentList'
+import AdvancedResult from './AdvancedResult';
+
 
 class Search extends Component {
     state = {
@@ -35,6 +37,7 @@ class Search extends Component {
                     <Route path='/simple/detail' exact component={DataDetail} />
 
                     <Route path='/advanced' exact component={AdvanceSearch} />
+                    <Route path='/advanced/result' exact component={AdvancedResult} />
                     <Route path='/advanced/classificationGraph' exact component={DataGraph} />
                     <Route path='/advanced/classificationList' exact component={DataList} />
                     <Route path='/advanced/classification/patentsList' exact component={PatentList} />

@@ -51,11 +51,15 @@ const dataList = (props) => {
                 </ExpansionPanel>)})
 
       const switchToGraph = () => {
-        props.history.push('/advanced/classificationGraph')
+        props.history.push('/advanced/result')
       }
 
       const goBack = () => {
         props.history.goBack()
+      }
+
+      const returnToSearch = () => {
+        props.history.push('/advanced')
       }
 
       const chooseDetail = (classIndex, index) => {
@@ -78,10 +82,13 @@ const dataList = (props) => {
         <div className={classes.root}>
         {list}
         <Button className={classes.button} variant="contained" onClick={switchToGraph} color="primary">
-              Show as List
+              Show as Graph
         </Button>
         <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
               Return
+        </Button>
+        <Button className={classes.button} variant="contained" onClick={returnToSearch} color="primary">
+            Back to Search
         </Button>
         </div>
       </Aux>

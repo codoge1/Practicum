@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import {withRouter} from 'react-router'
 
 
 const dataGraph = (props) => {
@@ -42,7 +43,7 @@ const dataGraph = (props) => {
     const handleClick = (event) => {
         let data = props.data.clusters[event.index]
         props.updateClassData(data)
-        props.history.push('/advanced/classification/patentsList')
+        // props.history.push('/advanced/classification/patentsList')
     }
             
     const goBack = () => {
@@ -52,6 +53,10 @@ const dataGraph = (props) => {
     const switchToList = () => {
         props.history.push('/advanced/classificationList')
     }
+
+    const returnToSearch = () => {
+        props.history.push('/advanced')
+      }
 
     const {classes} = props
     return(
@@ -76,6 +81,9 @@ const dataGraph = (props) => {
         </Button>
         <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
             Return
+        </Button>
+        <Button className={classes.button} variant="contained" onClick={returnToSearch} color="primary">
+            Back to Search
         </Button>
         </Aux>
     )
@@ -116,5 +124,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(dataGraph))
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(dataGraph)))
 

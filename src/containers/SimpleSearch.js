@@ -112,7 +112,7 @@ class Search extends Component {
         if (this.state.claim) {
             queryParameter += "&claim=true"
         }
-        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/search?q=' + queryParameter
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/search?method=kmeans&q=' + queryParameter
         this.setState({showSpinner:true,
                         showResult:true})
 

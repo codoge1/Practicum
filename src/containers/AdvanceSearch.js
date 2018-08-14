@@ -189,8 +189,11 @@ class Search extends Component {
     }
 
     search = () => {
-        const queryParameter = this.state.invention
-        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/search?q=' + queryParameter
+        const noval = this.state.novel
+        const invention = this.state.invention
+        const weight = 100 - this.state.weight
+
+        const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/search?method=kmeans&q=' + invention + '&nf=' + noval + '&bst=' + weight
         this.setState({showSpinner:true,
                         showResult:true,
                         showGraph:false})
@@ -245,7 +248,7 @@ class Search extends Component {
             this.setState({showGraph:true,
                             showSpinner:false})
             this.props.updataData(newData)
-            this.props.history.push('/advanced/classificationGraph')
+            this.props.history.push('/advanced/result')
         })
         .catch((e) => {
             console.log(e)
@@ -275,7 +278,7 @@ class Search extends Component {
                                                         <FormControl fullWidth className={classes.formControl}>
                                                             <FormGroup row>
 
-                                                                <Typography style={{fontSize:this.state.weight * 0.4}} variant="caption">
+                                                                <Typography style={{fontSize:40 - this.state.weight * 0.4}} variant="caption">
                                                                     Novel Feature
                                                                 </Typography>
                                                                 <Slider onChange={(value) => this.changeWeight(value)}
@@ -294,7 +297,7 @@ class Search extends Component {
                                                         </FormControl>
 
                                                         <FormControl fullWidth className={classes.formControl} >
-                                                            <Typography  style={{fontSize:40 - this.state.weight * 0.4}} variant="caption" align='right'>
+                                                            <Typography  style={{fontSize:this.state.weight * 0.4}} variant="caption" align='right'>
                                                                 Invention Disclosure
                                                             </Typography>
                                                         </FormControl>

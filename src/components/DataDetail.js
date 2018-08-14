@@ -9,15 +9,23 @@ import { connect } from 'react-redux';
 import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
 import boldClass from './DataDetail.css'
+import Grid from '@material-ui/core/Grid';
+
 
 
 
 const styles = theme => ({
     root: {
-      ...theme.mixins.gutters(),
-      paddingTop: theme.spacing.unit * 2,
-      paddingBottom: theme.spacing.unit * 2,
+    //   ...theme.mixins.gutters(),
+    //   paddingTop: theme.spacing.unit * 2,
+    //   paddingBottom: theme.spacing.unit * 2,
+      flexGrow:1
     },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+      },
     input:{
         border:'1px solid gray',
         borderRadius:'15px',
@@ -57,48 +65,52 @@ const dataDetail = (props) => {
     }
 
     return (
-        <Aux>
-        <div className={classes.container}>
-        <Paper className={classes.root} elevation={1}>
-            <Typography variant="headline" component="h1">
-                Title: {patent.name}
-            </Typography>
-            <br/>
-            <Typography component="p">
-                Application_ID:  {patent.id}
-            </Typography>
-            <br/>
-            <Typography variant="headline" component="h4">
-                Abstract: {patent.patentAbstract}
-            </Typography>
-            <br/>
-            <Typography variant="title">
-                Content
-            </Typography>
-            <br />
-            <div className={boldClass}>
-            {/* <Highlighter textToHighlight='asfasdas <b>gesadasd</b>'
-                        searchWords={[]}/> */}
-                {patent.description}
-            </div>
-        </Paper>
+        <div className={classes.root}>
+            <Grid container spacing={24}>
+                <Grid item xs={8}>
+                <div>
+                <Paper className={classes.paper} elevation={1}>
+                    <Typography variant="headline" component="h1">
+                        Title: {patent.name}
+                    </Typography>
+                    <br/>
+                    <Typography component="p">
+                        Application_ID:  {patent.id}
+                    </Typography>
+                    <br/>
+                    <Typography variant="headline" component="h4">
+                        Abstract: {patent.patentAbstract}
+                    </Typography>
+                    <br/>
+                    <Typography variant="title">
+                        Content
+                    </Typography>
+                    <br />
+                    <div className={boldClass}>
+                    {/* <Highlighter textToHighlight='asfasdas <b>gesadasd</b>'
+                                searchWords={[]}/> */}
+                        {patent.description}
+                    </div>
+                </Paper>
+                </div>
+                <div>
+                
+                <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
+                                                                    Return
+                                                                    </Button>
+                
+                <Button className={classes.button} variant="contained" onClick={goBackToSearch} color="primary">
+                                                                    Return to Search
+                                                                    </Button>
+                </div>
+
+                </Grid>
+                
+                <Grid item xs={4}>
+                    <Paper className={classes.paper}/>
+                </Grid>
+            </Grid>
         </div>
-        <div>
-        {/* <Button className={classes.button} variant="contained" onClick={switchToList} color="primary">
-                                                            Show All as List
-                                                         </Button>
-        <Button className={classes.button} variant="contained" onClick={switchToGraph} color="primary">
-                                                            Show All as Graph
-                                                            </Button> */}
-        <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
-                                                            Return
-                                                            </Button>
-        
-        <Button className={classes.button} variant="contained" onClick={goBackToSearch} color="primary">
-                                                            Return to Search
-                                                            </Button>
-        </div>
-        </Aux>
     )
 }
 

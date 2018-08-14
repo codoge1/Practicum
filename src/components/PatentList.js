@@ -13,20 +13,24 @@ import { connect } from 'react-redux';
 import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
+import {withRouter} from 'react-router'
 
 
 const patentList = (props) => {
     const { classes } = props;
-    const compare = (a, b) => {
-      if (a.score < b.score) {
-        return 1;
-      } else if (a.score > b.score) {
-        return -1;
-      }
-      return 0;
-    }
+    // const compare = (a, b) => {
+    //   if (a.score < b.score) {
+    //     return 1;
+    //   } else if (a.score > b.score) {
+    //     return -1;
+    //   }
+    //   return 0;
+    // }
     let patents = props.classData.docs
-    patents.sort(compare);
+    if (patents === undefined) {
+      patents = props.advancedData.patents
+    }
+    // patents.sort(compare);
     console.log(patents)
     const list = patents.map((el, index) => {
         return (<ExpansionPanel className={classes.root} key={el.id}>
@@ -49,7 +53,8 @@ const patentList = (props) => {
 
 
     const chooseDetail = (index) => {
-        const patent = props.classData.docs[index]
+        console.log(props)
+        const patent = patents[index]
         const id = patent.id
 
         const url = 'http://three10-1714580309.us-east-2.elb.amazonaws.com/api/patent?id=' + id
@@ -86,12 +91,12 @@ const patentList = (props) => {
         </div>
 
         <div>
-        <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
+        {/* <Button className={classes.button} variant="contained" onClick={goBack} color="primary">
             Return
         </Button>
         <Button className={classes.button} variant="contained" onClick={goBackToSearch} color="primary">
             Return to Search
-        </Button>
+        </Button> */}
         </div>
       </Aux>
     )
@@ -131,7 +136,8 @@ classes: PropTypes.object.isRequired,
   
 const mapStateToProps = (state) => {
   return {
-      classData:state.classData
+      classData:state.classData,
+      advancedData:state.advancedData
   }
 }
 
@@ -143,4 +149,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(patentList))
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(patentList)))
