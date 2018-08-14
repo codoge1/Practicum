@@ -95,8 +95,8 @@ const dataDetail = (props) => {
                     <div className={boldClass}>
                     {/* <Highlighter textToHighlight='asfasdas <b>gesadasd</b>'
                                 searchWords={[]}/> */}
-                    <Scrollbars style={{ width: 1000, height: 330 }}>
-                        <Typography variant='body2'>
+                    <Scrollbars style={{ width: 1000, height: 330, border:'1px solid gray',borderRadius:'15px' }}>
+                        <Typography style={{padding:10}} variant='body2'>
                             {patent.description}
                         </Typography>
                         {/* {patent.description} */}

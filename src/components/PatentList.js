@@ -35,17 +35,17 @@ const patentList = (props) => {
     const list = patents.map((el, index) => {
         return (<ExpansionPanel className={classes.root} key={el.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Title: {el.name}</Typography>
+
+            <div style={{'textAlign':'left'}} dangerouslySetInnerHTML={{__html: 'Title:  ' + el.name}}></div>
+
+              {/* <Typography className={classes.heading}>Title: {el.name}</Typography> */}
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <div>
-              <Typography>
-                Abstract: { el.patentAbstract }
-                </Typography>
+                <div style={{'textAlign':'left'}} dangerouslySetInnerHTML={{__html: 'Abstract:  ' + el.patentAbstract}}></div>
+
                 <Avatar style={{cursor:'pointer'}} onClick={() => chooseDetail(index)} className={classes.greenAvatar}>
                   <AssignmentIcon />
                 </Avatar>
-                </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>)
     })
