@@ -84,9 +84,9 @@ const patentList = (props) => {
         <br/>
         <br/>
         
-        <div className={classes.container} >
+        {/* <div className={classes.container} > */}
         {list}
-        </div>
+        {/* </div> */}
 
         </div>
 

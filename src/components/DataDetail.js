@@ -10,7 +10,7 @@ import Aux from '../hoc/Aux'
 import Button from '@material-ui/core/Button';
 import boldClass from './DataDetail.css'
 import Grid from '@material-ui/core/Grid';
-
+import { Scrollbars } from 'react-custom-scrollbars';
 
 
 
@@ -23,7 +23,7 @@ const styles = theme => ({
     },
     paper: {
         padding: theme.spacing.unit * 2,
-        textAlign: 'center',
+        textAlign: 'left',
         color: theme.palette.text.secondary,
       },
     input:{
@@ -70,26 +70,37 @@ const dataDetail = (props) => {
                 <Grid item xs={8}>
                 <div>
                 <Paper className={classes.paper} elevation={1}>
-                    <Typography variant="headline" component="h1">
+                    <Typography style={{textAlign: 'center'}} variant="display1" component="h1">
                         Title: {patent.name}
                     </Typography>
                     <br/>
-                    <Typography component="p">
+                    <Typography style={{textAlign: 'center'}} variant='subheading' component="p">
                         Application_ID:  {patent.id}
                     </Typography>
                     <br/>
-                    <Typography variant="headline" component="h4">
-                        Abstract: {patent.patentAbstract}
+                    <Typography style={{textAlign: 'center'}} variant="title" component="h4">
+                        Abstract
+                    </Typography>
+                    <br />
+                    
+                    <Typography variant='subheading'>
+                        {patent.patentAbstract}
                     </Typography>
                     <br/>
-                    <Typography variant="title">
+                    <Typography style={{textAlign: 'center'}} variant="title">
                         Content
                     </Typography>
+                    <br />
                     <br />
                     <div className={boldClass}>
                     {/* <Highlighter textToHighlight='asfasdas <b>gesadasd</b>'
                                 searchWords={[]}/> */}
-                        {patent.description}
+                    <Scrollbars style={{ width: 1000, height: 330 }}>
+                        <Typography variant='body2'>
+                            {patent.description}
+                        </Typography>
+                        {/* {patent.description} */}
+                    </Scrollbars>
                     </div>
                 </Paper>
                 </div>
@@ -107,7 +118,14 @@ const dataDetail = (props) => {
                 </Grid>
                 
                 <Grid item xs={4}>
-                    <Paper className={classes.paper}/>
+                    <Paper className={classes.paper}>
+                        <Typography variant="body2">
+                            Date
+                        </Typography>
+                        <Typography variant="body2">
+                            Some others?
+                        </Typography>
+                    </Paper>
                 </Grid>
             </Grid>
         </div>

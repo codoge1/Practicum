@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios'
+import Paper from '@material-ui/core/Paper';
 
 
 const dataGraph = (props) => {
@@ -68,6 +69,7 @@ const dataGraph = (props) => {
         <Typography variant="headline" gutterBottom>
             Search Content:{props.input}
         </Typography>
+        <Paper>
         <ReactBubbleChart
             className={classes}
             colorLegend={colorLegend}
@@ -83,6 +85,7 @@ const dataGraph = (props) => {
             onClick={handleClick}
 
     />
+        </Paper>
         </div>
         </div>
         <div>
