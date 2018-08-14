@@ -21,12 +21,14 @@ const AllPatents = (props) => {
 
         return (<ExpansionPanel className={classes.root} key={el.id}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Title: {el.name}</Typography>
+              {/* <Typography className={classes.heading}>Title: {el.name}</Typography> */}
+              <div style={{'textAlign':'left'}} dangerouslySetInnerHTML={{__html: 'Title:  ' + el.name}}></div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <div>
               <Typography>
-                Abstract: { el.patentAbstract }
+                {/* Abstract: { el.patentAbstract } */}
+                <div style={{'textAlign':'left'}} dangerouslySetInnerHTML={{__html: 'Abstract:  ' + el.patentAbstract}}></div>
                 </Typography>
                 <Avatar style={{cursor:'pointer'}} onClick={() => goToDetail(index)} className={classes.greenAvatar}>
                   <AssignmentIcon />

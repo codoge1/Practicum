@@ -189,7 +189,7 @@ class Search extends Component {
         const query = this.state.showResult ? null : <Aux>
                                                         
                                                         <Typography variant="display3" color='inherit' gutterBottom>
-                                                            Begin to Search Your Inventions!
+                                                            Begin Your Search!
                                                         </Typography>
 
 
