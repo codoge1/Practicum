@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import DataGraph from '../components/DataGraph'
 import DataList from '../components/DataList'
-
+import PatentList from '../components/PatentList'
 
 
 class AdvancedResult extends Component {
