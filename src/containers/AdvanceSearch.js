@@ -26,6 +26,13 @@ import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import { FormGroup } from '../../node_modules/@material-ui/core';
 import { connect } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import Paper from '@material-ui/core/Paper';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 
 
 
@@ -43,7 +50,7 @@ class Search extends Component {
         data:[],
         showSpinner:false,
         weight:50,
-
+        select:'0', //0->all 1->Title 2->description 3->claim
     }
 
     changeNovel = (event) => {
@@ -69,6 +76,11 @@ class Search extends Component {
     //                     showClass:false,
     //                     showDetail:false})
     // }
+
+    handleRadio =  (event) => {
+
+        this.setState({select:event.target.value})
+    }
 
     handleShowList = () => {
         this.setState({showList:true,
@@ -258,74 +270,78 @@ class Search extends Component {
     render(){
         const { classes } = this.props;
 
-        const query = this.state.showResult ? null : <Aux>
-                                                        <Typography variant="display3" color='inherit' gutterBottom>
-                                                            Advanced Search
-                                                        </Typography>
-                                                        <FormControl fullWidth className={classes.formControl}>
-                                                        <InputLabel>&nbsp;&nbsp;Novel Feature</InputLabel>
-                                                        <Input disableUnderline className={classes.input} value={this.state.novel} onChange={this.changeNovel} />
-                                                        <FormHelperText>Please input your novel feature</FormHelperText>
-                                                        </FormControl>
-                                                        <br />
-                                                        <br />
-                                                        <FormControl fullWidth className={classes.formControl}>
-                                                        <InputLabel>&nbsp;&nbsp;Invention Disclosure</InputLabel>
-                                                        <Input disableUnderline onKeyPress={(event) => this.handleKeyPress(event)} className={classes.input} multiline rows='8'value={this.state.invention} onChange={this.changeInvention} />
-                                                        <FormHelperText>Please input your invention disclosure</FormHelperText>
-                                                        </FormControl>
+        const query = this.state.showResult ? null :     <Grid container className={classes.root}>
+                                                            <Grid style={{marginTop:'5%', marginRight:'1%'}} item xs={2}>
+                                                                <Paper style={{height:'70%'}}>
+                                                                    <FormLabel style={{textAlign:'left'}}>Search By</FormLabel>
+                                                                    <RadioGroup
+                                                                        style={{margin:10}}
+                                                                        value={this.state.select}
+                                                                        onChange={this.handleRadio}
+                                                                        >
+                                                                        <FormControlLabel value='0' control={<Radio />} label="All" />
+                                                                        <FormControlLabel value='1' control={<Radio />} label="Title" />
+                                                                        <FormControlLabel value='2' control={<Radio />} label="Description" />
+                                                                        <FormControlLabel value='3' control={<Radio />} label="Claim" />
+                                                                        </RadioGroup>
+                                                                </Paper>
+                                                            </Grid>
 
-                                                        <FormControl fullWidth className={classes.formControl}>
-                                                            <FormGroup row>
-
-                                                                <Typography style={{fontSize:40 - this.state.weight * 0.4}} variant="caption">
-                                                                    Novel Feature
+                                                            <Grid item xs={9}>
+                                                                <Typography style={{textAlign:'left'}} variant="display3" color='inherit' gutterBottom>
+                                                                    Advanced Search
                                                                 </Typography>
-                                                                <Slider onChange={(value) => this.changeWeight(value)}
-                                                                        marks={{0:'0%',
-                                                                                20:'20%',
-                                                                                40:'40%',
-                                                                                60:'60%',
-                                                                                80:'80%',
-                                                                                100:'100%'}}
-                                                                        min={0} max={100}
-                                                                        defaultValue={50}
-                                                                        value={this.state.weight}
-                                                                        handle={this.handleSlider}/>
+                                                                <FormControl fullWidth className={classes.formControl}>
+                                                                <InputLabel>&nbsp;&nbsp;Novel Feature</InputLabel>
+                                                                <Input disableUnderline className={classes.input} value={this.state.novel} onChange={this.changeNovel} />
+                                                                <FormHelperText>Please input your novel feature</FormHelperText>
+                                                                </FormControl>
+                                                                <br />
+                                                                <br />
+                                                                <FormControl fullWidth className={classes.formControl}>
+                                                                <InputLabel>&nbsp;&nbsp;Invention Disclosure</InputLabel>
+                                                                <Input disableUnderline onKeyPress={(event) => this.handleKeyPress(event)} className={classes.input} multiline rows='8'value={this.state.invention} onChange={this.changeInvention} />
+                                                                <FormHelperText>Please input your invention disclosure</FormHelperText>
+                                                                </FormControl>
 
-                                                            </FormGroup>
-                                                        </FormControl>
+                                                                <FormControl fullWidth className={classes.formControl}>
+                                                                    <FormGroup row>
 
-                                                        <FormControl fullWidth className={classes.formControl} >
-                                                            <Typography  style={{fontSize:this.state.weight * 0.4}} variant="caption" align='right'>
-                                                                Invention Disclosure
-                                                            </Typography>
-                                                        </FormControl>
+                                                                        <Typography style={{fontSize:40 - this.state.weight * 0.4}} variant="caption">
+                                                                            Novel Feature
+                                                                        </Typography>
+                                                                        <Slider onChange={(value) => this.changeWeight(value)}
+                                                                                marks={{0:'0%',
+                                                                                        20:'20%',
+                                                                                        40:'40%',
+                                                                                        60:'60%',
+                                                                                        80:'80%',
+                                                                                        100:'100%'}}
+                                                                                min={0} max={100}
+                                                                                defaultValue={50}
+                                                                                value={this.state.weight}
+                                                                                handle={this.handleSlider}/>
 
-                                                        <FormControl fullWidth className={classes.formControl}>
-                                                            <FormGroup row>
-                                                                <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
-                                                                <Button className={classes.button} variant="contained" color="secondary" onClick={this.handleSwitch}>Simple Search</Button>
-                                                            </FormGroup>
-                                                        </FormControl>
+                                                                    </FormGroup>
+                                                                </FormControl>
+
+                                                                <FormControl fullWidth className={classes.formControl} >
+                                                                    <Typography  style={{fontSize:this.state.weight * 0.4}} variant="caption" align='right'>
+                                                                        Invention Disclosure
+                                                                    </Typography>
+                                                                </FormControl>
+
+                                                                <FormControl fullWidth className={classes.formControl}>
+                                                                    <FormGroup row>
+                                                                        <Button className={classes.button} variant="contained" color="primary" onClick={this.search}>Search</Button>
+                                                                        <Button className={classes.button} variant="contained" color="secondary" onClick={this.handleSwitch}>Simple Search</Button>
+                                                                    </FormGroup>
+                                                                </FormControl>
+                                                            </Grid>
+                                                        </Grid>
+                                                        
 
 
-                                                            {/* <Select
-                                                                value={this.state.searchBy}
-                                                                onChange={this.handleSelect}
-                                                                input={<Input/>}
-                                                            >
-
-                                                                <MenuItem value={1}>All</MenuItem>
-                                                                <MenuItem value={2}>Title</MenuItem>
-                                                                <MenuItem value={3}>ID</MenuItem>
-                                                                <MenuItem value={4}>Abstract</MenuItem>
-                                                                <MenuItem value={5}>Content</MenuItem>
-
-                                                            </Select>
-                                                            <FormHelperText>Search By</FormHelperText> */}
-
-                                                    </Aux>
 
         const dataList = this.state.showList ? <DataList
                                                         data={this.state.data}
@@ -370,41 +386,14 @@ class Search extends Component {
         const spinner = this.state.showSpinner ? <div style={{marginLeft:'50%'}}><FadeLoader color={'#00ff00'}/></div> : null
 
         return (
-            <Aux>
-            <div className={classes.container}>
+                <div>
+                    {query}
+                    {spinner}
+                </div>
+                
+               
+               
 
-                {query}
-                {/* <Dialog
-                fullWidth
-                maxWidth={false}
-                open={this.state.showModal}
-                onClose={this.handleCloseModal}
-                aria-labelledby="responsive-dialog-title"
-                >
-                <DialogTitle id="responsive-dialog-title">{"Search Term: "} {this.state.invention} :</DialogTitle>
-                <DialogContent> */}
-                {spinner}
-                {/* {dataList} */}
-                {/* {dataGraph} */}
-                {/* {patentList}
-                {dataDetail} */}
-                {/* </DialogContent>
-                <DialogActions> */}
-                    {/* <Button onClick={this.handleCloseModal} color="primary">
-                    Close
-                    </Button> */}
-                {/* </DialogActions> */}
-                {/* </Dialog> */}
-            </div>
-            <div>
-            {/* {toListBotton}
-            {toGraphBotton} */}
-            {/* {toAllResults} */}
-            {/* {returnToClass}
-            {returnToPatents}
-            {returnToSearch} */}
-            </div>
-            </Aux>
         )
     }
 }
@@ -426,6 +415,9 @@ class Search extends Component {
         button: {
             margin: theme.spacing.unit,
           },
+        root: {
+            flexGrow: 1,
+        }
     });
 
     Search.propTypes = {
