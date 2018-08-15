@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import DataGraph from '../components/DataGraph'
 import DataList from '../components/DataList'
 import PatentList from '../components/PatentList'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 
 class AdvancedResult extends Component {
@@ -25,9 +26,11 @@ class AdvancedResult extends Component {
                         </Paper>
                     </Grid>
                     <Grid item xs={6}>
+                    <Scrollbars style={{ width: '100%', height: 680, border:'1px gray',borderRadius:'15px' }}>
                         <Paper className={classes.paper}>
                             <PatentList />
                         </Paper>
+                        </Scrollbars>
                     </Grid>
                 </Grid>
             </div>
